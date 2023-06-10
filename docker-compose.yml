@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: 'hexafood-postgres'
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - hexafood-bridge
+
+  api:
+    container_name: 'hexafood-api'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    env_file:
+      - .env
+    networks:
+      - hexafood-bridge
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    links:
+      - postgres:postgres
+    command: yarn start:dev
+
+  # gerenciador de banco básico, localhost:8080
+  # adminer:
+  #   image: adminer
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+
+networks:
+  hexafood-bridge:
+    driver: bridge
+
+volumes:
+  postgres:
