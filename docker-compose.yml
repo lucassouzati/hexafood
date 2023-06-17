@@ -24,7 +24,7 @@ services:
       args:
         - NODE_ENV=development
     env_file:
-      - .env
+      - .env.dev
     networks:
       - hexafood-bridge
     ports:
@@ -32,7 +32,7 @@ services:
     depends_on:
       - postgres
     environment:
-      - POSTGRES_HOST=localhost
+      - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_USER=userpg
       - POSTGRES_PASSWORD=mysecretpassword
@@ -40,6 +40,9 @@ services:
     links:
       - postgres:postgres
     command: yarn start:dev
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
 
   # gerenciador de banco básico, localhost:8080
   # adminer:

@@ -19,4 +19,8 @@ export class ClientesRepository {
     });
   }
 
+  async findAll(): Promise<Cliente[]> {
+    return await this.prisma.cliente.findMany(); 
+  }
+
 }

@@ -12,14 +12,16 @@ USER node
 
 RUN yarn install 
 
-# # Execute o comando para gerar os arquivos do Prisma
+# Adicione o Nest CLI como uma dependência global
+RUN yarn global add @nestjs/cli
+
+# Execute o comando para gerar os arquivos do Prisma
 RUN yarn prisma generate
 
-# # Comando para executar o ORM Prisma
-CMD ["yarn", "prisma", "migrate", "dev"]
+# Copie o script de inicialização para o container
+COPY start.sh .
 
-# Comando para iniciar a aplicação NestJS
-# Descomente a linha abaixo e comente o comando acima caso queira iniciar a aplicação ao invés de executar apenas o ORM Prisma
-# CMD ["yarn", "start"]
+# Comando para executar o script de inicialização
+CMD ["./start.sh"]
 
 EXPOSE 3000

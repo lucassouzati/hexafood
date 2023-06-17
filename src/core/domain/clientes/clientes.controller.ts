@@ -18,4 +18,10 @@ export class ClientesController {
     return await this.clientesService.findUnique(cpf);
   }
 
+  @Get()
+  async findAll(): Promise<Cliente[]> {
+    return await this.clientesService.findAll();
+  }
+
+
 }

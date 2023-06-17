@@ -17,4 +17,8 @@ export class ClientesService {
     return this.clientesRepository.findUnique(cpf);
   }
 
+  findAll(): Promise<Cliente[]> {
+    return this.clientesRepository.findAll();
+  }
+
 }
