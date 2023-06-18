@@ -10,9 +10,7 @@ export class ClientesService {
     return this.clientesRepository.create(cliente);
   }
 
-
-  findUnique(cpf: string){
+  findUnique(cpf: string) {
     return this.clientesRepository.findUnique(cpf);
   }
-
 }

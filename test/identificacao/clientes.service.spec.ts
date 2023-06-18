@@ -4,17 +4,16 @@ import { ClientesService } from '../../src/identificacao/core/application/servic
 import { InMemoryClientesRepository } from '../../src/identificacao/adapter/driven/infrastructure/in-memory-clientes.repository';
 import { Cliente } from '../../src/identificacao/core/domain/clientes/entities/cliente.entity';
 
-
 describe('ClientesService', () => {
   let service: ClientesService;
-  let repository: IClientesRepository
+  let repository: IClientesRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
           provide: IClientesRepository,
-          useClass: InMemoryClientesRepository
+          useClass: InMemoryClientesRepository,
         },
         ClientesService,
       ],
@@ -30,7 +29,5 @@ describe('ClientesService', () => {
       const result = await service.create(clienteData);
       expect(result).toEqual(clienteData);
     });
-
   });
-  
 });

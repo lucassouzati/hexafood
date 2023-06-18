@@ -6,10 +6,12 @@ import { IClientesRepository } from './core/application/ports/repositories/clien
 
 @Module({
   controllers: [ClientesController],
-  providers: [ClientesService, 
-  {
-    provide: IClientesRepository,
-    useClass: ClientesRepository
-  }]
+  providers: [
+    ClientesService,
+    {
+      provide: IClientesRepository,
+      useClass: ClientesRepository,
+    },
+  ],
 })
 export class IdentificacaoModule {}

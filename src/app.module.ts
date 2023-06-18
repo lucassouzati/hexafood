@@ -13,7 +13,7 @@ import { IdentificacaoModule } from './identificacao/identificacao.module';
     }),
     IdentificacaoModule,
     PedidosModule,
-    ProdutosModule
+    ProdutosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
