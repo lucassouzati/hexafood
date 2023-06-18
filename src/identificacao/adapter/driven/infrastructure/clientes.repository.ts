@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { Cliente } from 'src/identificacao/core/domain/clientes/entities/cliente.entity';
-import { IClientesRepository } from 'src/identificacao/core/application/ports/repositories/clientes.repository';
+import { Cliente } from './../../../core/domain/clientes/entities/cliente.entity';
+import { IClientesRepository } from './../../../core/application/ports/repositories/clientes.repository';
 
 export class ClientesRepository implements IClientesRepository {
   private prisma: PrismaClient;

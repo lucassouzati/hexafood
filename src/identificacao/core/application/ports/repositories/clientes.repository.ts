@@ -1,6 +1,6 @@
-import { Cliente } from 'src/identificacao/core/domain/clientes/entities/cliente.entity';
+import { Cliente } from '../../../domain/clientes/entities/cliente.entity';
 
-export const IClientesRepository = Symbol('IClientesRepository');
+export const IClientesRepository = 'IClientesRepository';
 
 export interface IClientesRepository {
   create(data: Cliente);

@@ -19,7 +19,7 @@ describe('ClientesService', () => {
       ],
     }).compile();
 
-    repository = module.get<IClientesRepository>(InMemoryClientesRepository);
+    repository = module.get<IClientesRepository>(IClientesRepository);
     service = module.get<ClientesService>(ClientesService);
   });
 

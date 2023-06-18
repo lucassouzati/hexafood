@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ClientesService } from 'src/identificacao/core/application/services/clientes.service';
-import { ClientesController } from 'src/identificacao/adapter/driver/clientes.controller';
-import { ClientesRepository } from 'src/identificacao/adapter/driven/infrastructure/clientes.repository';
-import { IClientesRepository } from './core/application/ports/repositories/clientes.repository';
+import { ClientesController } from './adapter/driver/clientes.controller';
+import { ClientesRepository } from './adapter/driven/infrastructure/clientes.repository';
+import { IClientesRepository } from './core/application/ports/repositories/clientes.repository'
+import { ClientesService } from './core/application/services/clientes.service';
 
 @Module({
   controllers: [ClientesController],
   providers: [
-    ClientesService,
     {
       provide: IClientesRepository,
       useClass: ClientesRepository,
     },
+    ClientesService
   ],
 })
 export class IdentificacaoModule {}
