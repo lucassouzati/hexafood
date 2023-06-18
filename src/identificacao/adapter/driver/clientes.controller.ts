@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ClientesService } from './clientes.service';
-import { CreateClienteDto } from './dto/create-cliente.dto';
-import { UpdateClienteDto } from './dto/update-cliente.dto';
-import { Cliente } from './entities/cliente.entity';
+import { ClientesService } from '../../../identificacao/core/application/services/clientes.service';
+import { CreateClienteDto } from '../driven/dto/create-cliente.dto';
+import { UpdateClienteDto } from '../driven/dto/update-cliente.dto';
+import { Cliente } from '../../core/domain/clientes/entities/cliente.entity';
 
 @Controller('clientes')
 export class ClientesController {
@@ -16,11 +16,6 @@ export class ClientesController {
   @Get(':cpf')
   async findByCPF(@Param('cpf') cpf: string): Promise<Cliente | null> {
     return await this.clientesService.findUnique(cpf);
-  }
-
-  @Get()
-  async findAll(): Promise<Cliente[]> {
-    return await this.clientesService.findAll();
   }
 
 

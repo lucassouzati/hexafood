@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import { Cliente } from './entities/cliente.entity';
+import { Cliente } from 'src/identificacao/core/domain/clientes/entities/cliente.entity';
+import { IClientesRepository } from 'src/identificacao/core/application/ports/repositories/clientes.repository'
 
 
-export class ClientesRepository {
+export class ClientesRepository implements IClientesRepository {
   private prisma: PrismaClient;
 
   constructor() {
@@ -17,10 +18,6 @@ export class ClientesRepository {
     return this.prisma.cliente.findUnique({
       where: { cpf },
     });
-  }
-
-  async findAll(): Promise<Cliente[]> {
-    return await this.prisma.cliente.findMany(); 
   }
 
 }
