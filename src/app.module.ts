@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { PedidosModule } from './core/domain/pedidos/pedidos.module';
 import { ProdutosModule } from './core/domain/produtos/produtos.module';
 import { IdentificacaoModule } from './identificacao/identificacao.module';
+import { CategoriasModule } from './core/domain/produtos/categoria/categorias.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { IdentificacaoModule } from './identificacao/identificacao.module';
     IdentificacaoModule,
     PedidosModule,
     ProdutosModule,
+    CategoriasModule
   ],
   controllers: [AppController],
   providers: [AppService],
