@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateCategoriaDto } from '../dto/categorias/create-categoria.dto';
-import { UpdateCategoriaDto } from '../dto/categorias/update-categoria.dto';
+import { CreateCategoriaDto } from '../../../dto/categorias/create-categoria.dto';
+import { UpdateCategoriaDto } from '../../../dto/categorias/update-categoria.dto';
 
 @Injectable()
 export class CategoriasService {

@@ -7,10 +7,10 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { CategoriasService } from './categorias.service';
+import { CategoriasService } from '../../core/application/services/categorias.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateCategoriaDto } from '../dto/categorias/create-categoria.dto';
-import { UpdateCategoriaDto } from '../dto/categorias/update-categoria.dto';
+import { CreateCategoriaDto } from '../../dto/categorias/create-categoria.dto';
+import { UpdateCategoriaDto } from '../../dto/categorias/update-categoria.dto';
 
 
 @ApiTags('categorias')
