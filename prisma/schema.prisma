@@ -19,3 +19,10 @@ model Cliente {
 
   @@map("clientes")
 }
+
+model Categoria {
+  id        Int      @id @default(autoincrement())
+  nome      String
+
+  @@map("categorias")
+}
