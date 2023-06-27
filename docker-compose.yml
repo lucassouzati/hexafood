@@ -39,7 +39,7 @@ services:
       - POSTGRES_DB=hexafood
     links:
       - postgres:postgres
-    command: yarn start:dev
+    command: ./start.sh
     volumes:
       - .:/home/node/app
       - /home/node/app/node_modules
