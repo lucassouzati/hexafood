@@ -1,27 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { Categoria } from '../../domain/entities/categoria.entity';
+import { ICategoriasRepository } from '../ports/repositories/categorias.repository';
 
 import { CreateCategoriaDto } from '../../../dto/categorias/create-categoria.dto';
 import { UpdateCategoriaDto } from '../../../dto/categorias/update-categoria.dto';
 
 @Injectable()
 export class CategoriasService {
+  constructor(
+    @Inject(ICategoriasRepository)
+    private clientesRepository: ICategoriasRepository
+    ) {}
+
   create(createCategoriaDto: CreateCategoriaDto) {
-    return 'This action adds a new categoria';
+    return this.clientesRepository.create(createCategoriaDto);
   }
 
   findAll() {
-    return `This action returns all Categorias`;
+    return this.clientesRepository.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} categoria`;
+    return this.clientesRepository.findOne(id);
   }
 
   update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return `This action updates a #${id} categoria`;
+    return this.clientesRepository.update(id, updateCategoriaDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} categoria`;
+    return this.clientesRepository.remove(id);
   }
 }
