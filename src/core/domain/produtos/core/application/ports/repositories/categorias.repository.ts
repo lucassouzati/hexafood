@@ -2,7 +2,7 @@ import { CreateCategoriaDto } from 'src/core/domain/produtos/dto/categorias/crea
 import { Categoria } from '../../../domain/entities/categoria.entity';
 import { UpdateCategoriaDto } from 'src/core/domain/produtos/dto/categorias/update-categoria.dto';
 
-export const ICategoriasRepository = 'IClientesRepository';
+export const ICategoriasRepository = 'ICategoriasRepository';
 
 export interface ICategoriasRepository {
   create(createCategoriaDto: CreateCategoriaDto);

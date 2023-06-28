@@ -12,37 +12,46 @@ export class CategoriasRepository implements ICategoriasRepository {
   }
   
   async create(createCategoriaDto: CreateCategoriaDto): Promise<Categoria>{
-    // return this.prisma.categoria.create({ createCategoriaDto })
-    return
+    return this.prisma.categoria.create({
+      data: {
+        nome: createCategoriaDto.name
+      },
+    })
   };
 
   async findOne(id : number): Promise<Categoria | null> {
-    // return this.prisma.categoria.findUnique({
-    //   where: { id },
-    // });
-    return
+    return this.prisma.categoria.findUnique({
+      where: { id },
+    });
   };
 
-  async findAll(): Promise<Categoria | null> {
-    // return this.prisma.categoria.findAll();
-    return
+  async findAll(): Promise<Categoria[] | null> {
+    var categorias = await this.prisma.categoria.findMany();
+    return categorias;
   };
 
   async update(id: number, updateCategoriaDto: UpdateCategoriaDto): Promise<Categoria | null> {
-    // var item = this.prisma.categoria.findUnique({
-    //   where: { id },
-    // });
+    var item = this.prisma.categoria.findUnique({
+      where: { id },
+    });
 
-    // return this.prisma.categoria.update(id, updateCategoriaDto)
-    return
+    return this.prisma.categoria.update(
+      {
+        where: {
+          id
+        },
+        data: {
+          nome: updateCategoriaDto.name,
+        },
+      }
+    )
   };
 
   async remove(id: number): Promise<Categoria | null> {
-    // var item = this.prisma.categoria.findUnique({
-    //   where: { id },
-    // });
-
-    // return this.prisma.categoria.remove({item})
-    return
+    return this.prisma.categoria.delete({
+      where: {
+        id
+      },
+    })
   };
 }
