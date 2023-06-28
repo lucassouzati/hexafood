@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { Categoria } from '../../../core/domain/entities/categoria.entity';
-import { ICategoriasRepository } from './../../../core/application/ports/repositories/categorias.repository';
-import { CreateCategoriaDto } from '../../../dto/categorias/create-categoria.dto';
-import { UpdateCategoriaDto } from '../../../dto/categorias/update-categoria.dto';
+import { ICategoriasRepository } from '../../../core/application/ports/repositories/categorias.repository';
+import { CreateCategoriaDto } from '../../../core/application/dto/create-categoria.dto';
+import { UpdateCategoriaDto } from '../../../core/application/dto/update-categoria.dto';
 
 export class CategoriasRepository implements ICategoriasRepository {
   private prisma: PrismaClient;
@@ -55,3 +55,6 @@ export class CategoriasRepository implements ICategoriasRepository {
     })
   };
 }
+
+
+

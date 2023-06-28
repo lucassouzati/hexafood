@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { CategoriasService } from '../../core/application/services/categorias.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateCategoriaDto } from '../../dto/categorias/create-categoria.dto';
-import { UpdateCategoriaDto } from '../../dto/categorias/update-categoria.dto';
+import { CreateCategoriaDto } from '../../core/application/dto/create-categoria.dto';
+import { UpdateCategoriaDto } from '../../core/application/dto/update-categoria.dto';
 
 
 @ApiTags('categorias')

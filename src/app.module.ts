@@ -2,10 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PedidosModule } from './core/domain/pedidos/pedidos.module';
-import { ProdutosModule } from './core/domain/produtos/produtos.module';
+import { PedidoModule } from './pedido/pedido.module';
 import { IdentificacaoModule } from './identificacao/identificacao.module';
-import { CategoriasModule } from './core/domain/produtos/categorias.module';
 
 @Module({
   imports: [
@@ -13,9 +11,7 @@ import { CategoriasModule } from './core/domain/produtos/categorias.module';
       isGlobal: true,
     }),
     IdentificacaoModule,
-    PedidosModule,
-    ProdutosModule,
-    CategoriasModule
+    PedidoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

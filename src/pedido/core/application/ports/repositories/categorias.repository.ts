@@ -1,6 +1,5 @@
-import { CreateCategoriaDto } from 'src/core/domain/produtos/dto/categorias/create-categoria.dto';
-import { Categoria } from '../../../domain/entities/categoria.entity';
-import { UpdateCategoriaDto } from 'src/core/domain/produtos/dto/categorias/update-categoria.dto';
+import { CreateCategoriaDto } from '../../dto/create-categoria.dto';
+import { UpdateCategoriaDto } from '../../dto/update-categoria.dto';
 
 export const ICategoriasRepository = 'ICategoriasRepository';
 
