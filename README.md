@@ -32,6 +32,10 @@ Para executar os testes de unidades, execute o comando:
 docker compose exec api yarn test
 ```
 
+Para limpar o volume db do docker, execute o comando:
+docker-compose down -v
+
+
 
 ## :electric_plug: Arquitetura Hexagonal (Ports and Adapters)
 Cunhado em meados dos anos 1990 pelo Dr. Alistair Cockburn, a Arquitetura Hexaognal surgiu com o principal objetivo de construir sistemas alto nível de coesão e baixo nível de acoplamento, aplicando a Separação de Conceitos (SoC - Separation of Concerns) em diversos níveis da aplicação. 

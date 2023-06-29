@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CategoriasController } from './categorias.controller';
-import { CategoriasService } from './categorias.service';
+import { CategoriasController } from '../../../src/pedido/adapter/driver/categorias.controller';
+import { CategoriasService } from '../../../src/pedido/core/application/services/categorias.service';
 
 describe('CategoriasController', () => {
   let controller: CategoriasController;

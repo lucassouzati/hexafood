@@ -9,9 +9,8 @@ export class ProdutosRepository implements IProdutosRepository {
     this.prisma = new PrismaClient();
   }
 
-
-  async  createManyProdutos(produtos: Produto[]) {
-     return  this.prisma.produto.createMany({
+  async createManyProdutos(produtos: Produto[]) {
+    return this.prisma.produto.createMany({
       data: produtos,
     });
   }
@@ -20,7 +19,7 @@ export class ProdutosRepository implements IProdutosRepository {
   //   return this.prisma.produto.create({ data });
   // }
 
-  async buscarPorIdCategoria(idCategoria: number) {
+  async findByIdCategoria(idCategoria: number) {
     return this.prisma.produto.findMany({
       where: {
         id_categoria: Number(idCategoria),
@@ -29,31 +28,29 @@ export class ProdutosRepository implements IProdutosRepository {
   }
 
   async update(id: number, produto: Produto): Promise<Produto | null> {
-    var item = this.prisma.produto.findUnique({
+    const item = this.prisma.produto.findUnique({
       where: { id },
     });
 
-    return this.prisma.produto.update(
-      {
-        where: {
-          id
-        },
-        data: {
-          nome: produto.nome,
-          valor: produto.valor,
-          descricao: produto.descricao,
-          imagem: produto.imagem,
-          updatedAt: produto.updatedAt
-        },
-      }
-    )
-  };
+    return this.prisma.produto.update({
+      where: {
+        id,
+      },
+      data: {
+        nome: produto.nome,
+        valor: produto.valor,
+        descricao: produto.descricao,
+        imagem: produto.imagem,
+        updatedAt: produto.updatedAt,
+      },
+    });
+  }
 
   async remove(id: number): Promise<Produto | null> {
     return this.prisma.produto.delete({
       where: {
-        id
+        id,
       },
-    })
-  };
+    });
+  }
 }

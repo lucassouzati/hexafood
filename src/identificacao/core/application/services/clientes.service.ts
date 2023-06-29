@@ -6,8 +6,8 @@ import { IClientesRepository } from '../ports/repositories/clientes.repository';
 export class ClientesService {
   constructor(
     @Inject(IClientesRepository)
-    private clientesRepository: IClientesRepository
-    ) {}
+    private clientesRepository: IClientesRepository,
+  ) {}
 
   create(cliente: Cliente) {
     //validar se já tem cliente cpf

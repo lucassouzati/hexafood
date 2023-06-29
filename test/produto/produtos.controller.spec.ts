@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProdutosController } from './adapter/driver/produtos.controller';
-import { ProdutosService } from './core/application/services/produtos.service';
+import { ProdutosController } from '../../src/pedido/adapter/driver/produtos.controller';
+import { ProdutosService } from '../../src/pedido/core/application/services/produtos.service';
 
 describe('ProdutosController', () => {
   let controller: ProdutosController;

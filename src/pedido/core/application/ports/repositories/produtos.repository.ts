@@ -6,10 +6,9 @@ export interface IProdutosRepository {
   createManyProdutos(data: Produto[]);
   // create(data: Produto);
 
-  buscarPorIdCategoria(id_categoria: number): Promise<Produto[]>;
+  findByIdCategoria(id_categoria: number): Promise<Produto[]>;
 
   update(id: number, produto: Produto);
 
   remove(id: number);
 }
-

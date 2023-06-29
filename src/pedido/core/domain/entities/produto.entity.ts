@@ -1,31 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class Produto {
+  id?: number;
+  @ApiProperty()
+  nome: string;
+  @ApiProperty()
+  id_categoria: number;
+  @ApiProperty()
+  valor: number;
 
-   id?: number;
-    @ApiProperty()
+  @ApiProperty()
+  descricao: string;
 
-    nome: string;
-    @ApiProperty()
+  @ApiProperty()
+  imagem: string;
 
-    id_categoria: number;
-    @ApiProperty()
+  createdAt?: Date;
 
-    valor: number;
+  updatedAt?: Date;
+}
 
-    @ApiProperty()
-    descricao: string;
-
-    @ApiProperty()
-    imagem: string;
-
-    createdAt?: Date;
-    
-    updatedAt?: Date;
-  }
-
-
-  
 // import { ApiProperty } from '@nestjs/swagger';
 
 // export class CreateCategoriaDto {

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Patch, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Body,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProdutosService } from '../../core/application/services/produtos.service';
 import { Produto } from '../../core/domain/entities/produto.entity';
 
@@ -27,7 +35,7 @@ export class ProdutosController {
   async findByIdCategoria(
     @Param('id_categoria') id_categoria: number,
   ): Promise<Produto[] | null> {
-    return await this.produtosService.buscarPorIdCategoria(id_categoria);
+    return await this.produtosService.findByIdCategoria(id_categoria);
   }
 
   @Patch(':id')
