@@ -58,9 +58,6 @@ describe('ClientesService', () => {
         cpf: '12345678901',
       };
 
-      //Força o repositório a retornar true
-      jest.spyOn(repository, 'existsByCpf').mockResolvedValue(true);
-
       await expect(service.create(clienteData)).rejects.toThrowError(
         NomeInvalidoException,
       );
@@ -71,9 +68,6 @@ describe('ClientesService', () => {
         nome: 'Sr. Teste 1',
         cpf: '123',
       };
-
-      //Força o repositório a retornar true
-      jest.spyOn(repository, 'existsByCpf').mockResolvedValue(true);
 
       await expect(service.create(clienteData)).rejects.toThrowError(
         CpfInvalidoException,
