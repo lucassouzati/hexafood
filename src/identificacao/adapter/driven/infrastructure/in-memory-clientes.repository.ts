@@ -17,4 +17,8 @@ export class InMemoryClientesRepository implements IClientesRepository {
     }
     return cliente;
   }
+
+  async existsByCpf(cpf: string): Promise<boolean> {
+    return this.clientes.some((c) => c.cpf == cpf);
+  }
 }

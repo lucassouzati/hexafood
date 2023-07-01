@@ -6,4 +6,6 @@ export interface IClientesRepository {
   create(data: Cliente);
 
   findUnique(cpf: string): Promise<Cliente>;
+
+  existsByCpf(cpf: string): Promise<boolean>;
 }

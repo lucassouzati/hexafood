@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Cliente } from '../../domain/entities/cliente.entity';
 import { IClientesRepository } from '../ports/repositories/clientes.repository';
+import { CpfAlreadyExistsException } from '../exceptions/cpf-ja-existente.exception';
 
 @Injectable()
 export class ClientesService {
@@ -9,8 +10,11 @@ export class ClientesService {
     private clientesRepository: IClientesRepository,
   ) {}
 
-  create(cliente: Cliente) {
-    //validar se já tem cliente cpf
+  async create(cliente: Cliente) {
+    const result = this.clientesRepository.existsByCpf(cliente.cpf);
+    if (await this.clientesRepository.existsByCpf(cliente.cpf))
+      throw new CpfAlreadyExistsException();
+
     return this.clientesRepository.create(cliente);
   }
 
