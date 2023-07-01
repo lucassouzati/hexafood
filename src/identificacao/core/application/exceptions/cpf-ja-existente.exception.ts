@@ -1,10 +1,6 @@
-import { BadRequestException } from '@nestjs/common';
-
-export class CpfAlreadyExistsException extends BadRequestException {
+export class CpfJaExistenteException extends Error {
   constructor() {
-    super('CPF já existente', {
-      cause: new Error(),
-      description: 'Já existe alguém cadastrado com esse CPF',
-    });
+    super('CPF já existente');
+    this.name = 'Já existe alguém cadastrado com esse CPF';
   }
 }
