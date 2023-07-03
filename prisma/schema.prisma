@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "darwin"]
 }
 
@@ -12,32 +12,52 @@ datasource db {
 }
 
 model Cliente {
-  id        Int      @id @default(autoincrement())
+  id        Int         @id @default(autoincrement())
   nome      String
-  cpf       String   @unique
-  createdAt DateTime @default(now())
+  cpf       String      @unique
+  createdAt DateTime    @default(now())
+  Pagamento Pagamento[]
 
   @@map("clientes")
 }
 
 model Categoria {
-  id        Int      @id @default(autoincrement())
-  nome      String
+  id       Int       @id @default(autoincrement())
+  nome     String
   produtos Produto[]
 
   @@map("categorias")
 }
 
 model Produto {
-  id            Int      @id @default(autoincrement())
-  nome          String
-  id_categoria  Int
-  valor         Float 
-  descricao     String
-  imagem        String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-  categoria     Categoria @relation(fields: [id_categoria], references: [id]) 
-  
+  id           Int       @id @default(autoincrement())
+  nome         String
+  id_categoria Int
+  valor        Float
+  descricao    String
+  imagem       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
+  categoria    Categoria @relation(fields: [id_categoria], references: [id])
+
   @@map("produtos")
+}
+
+model Pagamento {
+  id           Int    @default(autoincrement())
+  id_cliente   Int
+  id_pedido    Int
+  id_transacao Int    @unique
+  descricao    String
+  plataforma   String
+  valor        Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  // TODO implementar relação quando Pedido existir
+  // pedido        Pedido @relation(fields: [id_pedido], references: [id]) 
+  cliente Cliente @relation(fields: [id_cliente], references: [id])
+
+  @@map("pagamentos")
 }

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+// import { IsNotEmpty } from 'class-validator';
 
 export class ClienteDto {
   id?: number;
 
   @ApiProperty()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   nome: string;
 
   @ApiProperty()
