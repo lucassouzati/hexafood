@@ -161,5 +161,5 @@ Feito com ❤️ por:
 - [Lucas Siqueira](https://www.linkedin.com/in/lucassouzatidev/)
 - [Marayza]()
 - [Mario Celso]()
-- [Rafael]()
+- [Rafael Silveira](https://github.com/rafasilveira)
 
