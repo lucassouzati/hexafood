@@ -1,8 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Categoria } from '../../../core/domain/entities/categoria.entity';
 import { ICategoriasRepository } from '../../../core/application/ports/repositories/categorias.repository';
-import { CreateCategoriaDto } from '../../../core/application/dto/create-categoria.dto';
-import { UpdateCategoriaDto } from '../../../core/application/dto/update-categoria.dto';
+import { CategoriaDto } from '../dto/categoria.dto';
 
 export class CategoriasRepository implements ICategoriasRepository {
   private prisma: PrismaClient;
@@ -11,7 +10,7 @@ export class CategoriasRepository implements ICategoriasRepository {
     this.prisma = new PrismaClient();
   }
   
-  async create(createCategoriaDto: CreateCategoriaDto): Promise<Categoria>{
+  async create(createCategoriaDto: CategoriaDto): Promise<Categoria>{
     return this.prisma.categoria.create({
       data: {
         nome: createCategoriaDto.name
@@ -30,7 +29,7 @@ export class CategoriasRepository implements ICategoriasRepository {
     return categorias;
   };
 
-  async update(id: number, updateCategoriaDto: UpdateCategoriaDto): Promise<Categoria | null> {
+  async update(id: number, updateCategoriaDto: CategoriaDto): Promise<Categoria | null> {
     var item = this.prisma.categoria.findUnique({
       where: { id },
     });

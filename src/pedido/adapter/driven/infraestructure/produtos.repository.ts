@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Produto } from '../../../core/domain/entities/produto.entity';
+import { ProdutoDto } from '../dto/produto.dto';
 import { IProdutosRepository } from './../../../core/application/ports/repositories/produtos.repository';
 
 export class ProdutosRepository implements IProdutosRepository {
@@ -9,15 +10,11 @@ export class ProdutosRepository implements IProdutosRepository {
     this.prisma = new PrismaClient();
   }
 
-  async createManyProdutos(produtos: Produto[]) {
+  async createManyProdutos(produtos: ProdutoDto[]) {
     return this.prisma.produto.createMany({
       data: produtos,
     });
   }
-
-  // async create(data: Produto): Promise<Produto> {
-  //   return this.prisma.produto.create({ data });
-  // }
 
   async findByIdCategoria(idCategoria: number) {
     return this.prisma.produto.findMany({
@@ -27,7 +24,7 @@ export class ProdutosRepository implements IProdutosRepository {
     });
   }
 
-  async update(id: number, produto: Produto): Promise<Produto | null> {
+  async update(id: number, produto: ProdutoDto): Promise<Produto | null> {
     const item = this.prisma.produto.findUnique({
       where: { id },
     });
@@ -41,7 +38,7 @@ export class ProdutosRepository implements IProdutosRepository {
         valor: produto.valor,
         descricao: produto.descricao,
         imagem: produto.imagem,
-        updatedAt: produto.updatedAt,
+        id_categoria: produto.id_categoria
       },
     });
   }

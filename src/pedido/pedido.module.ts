@@ -7,12 +7,18 @@ import { CategoriasService } from './core/application/services/categorias.servic
 import { CategoriasController } from './adapter/driver/categorias.controller';
 import { ICategoriasRepository } from './core/application/ports/repositories/categorias.repository';
 import { CategoriasRepository } from './adapter/driven/infraestructure/categorias.repository';
+import { APP_FILTER } from '@nestjs/core';
+import { ValidationFilter } from './adapter/driven/filters/validation.filter';
 
 @Module({
   controllers: [ProdutosController, CategoriasController],
   providers: [
     { provide: IProdutosRepository, useClass: ProdutosRepository },
     { provide: ICategoriasRepository, useClass: CategoriasRepository },
+    {
+      provide: APP_FILTER,
+      useClass: ValidationFilter,
+    },
     ProdutosService,
     CategoriasService
   ],

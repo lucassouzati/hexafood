@@ -1,16 +1,16 @@
-import { CreateCategoriaDto } from '../../dto/create-categoria.dto';
-import { UpdateCategoriaDto } from '../../dto/update-categoria.dto';
+import { Categoria } from 'src/pedido/core/domain/entities/categoria.entity';
+import { CategoriaDto } from '../../../../adapter/driven/dto/categoria.dto';
 
 export const ICategoriasRepository = 'ICategoriasRepository';
 
 export interface ICategoriasRepository {
-  create(createCategoriaDto: CreateCategoriaDto);
+  create(createCategoriaDto: CategoriaDto);
 
   findOne(id : number);
 
-  findAll();
+  findAll(): Promise<Categoria[]>;
 
-  update(id: number, updateCategoriaDto: UpdateCategoriaDto);
+  update(id: number, updateCategoriaDto: CategoriaDto);
 
   remove(id: number);
 }
