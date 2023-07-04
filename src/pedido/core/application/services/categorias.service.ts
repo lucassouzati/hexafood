@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ICategoriasRepository } from '../ports/repositories/categorias.repository';
-import { CreateCategoriaDto } from '../../../core/application/dto/create-categoria.dto';
-import { UpdateCategoriaDto } from '../../../core/application/dto/update-categoria.dto';
+import { CategoriaDto } from '../../../adapter/driven/dto/categoria.dto';
+import { Categoria } from '../../domain/entities/categoria.entity';
 
 @Injectable()
 export class CategoriasService {
@@ -10,7 +10,7 @@ export class CategoriasService {
     private categoriasRepository: ICategoriasRepository
     ) {}
 
-  create(createCategoriaDto: CreateCategoriaDto) {
+  create(createCategoriaDto: CategoriaDto) {
     return this.categoriasRepository.create(createCategoriaDto);
   }
 
@@ -22,7 +22,7 @@ export class CategoriasService {
     return this.categoriasRepository.findOne(id);
   }
 
-  update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
+  update(id: number, updateCategoriaDto: CategoriaDto) {
     return this.categoriasRepository.update(id, updateCategoriaDto);
   }
 

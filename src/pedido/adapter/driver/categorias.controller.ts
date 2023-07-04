@@ -9,8 +9,7 @@ import {
 } from '@nestjs/common';
 import { CategoriasService } from '../../core/application/services/categorias.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateCategoriaDto } from '../../core/application/dto/create-categoria.dto';
-import { UpdateCategoriaDto } from '../../core/application/dto/update-categoria.dto';
+import { CategoriaDto } from '../driven/dto/categoria.dto';
 
 
 @ApiTags('categorias')
@@ -19,7 +18,7 @@ export class CategoriasController {
   constructor(private readonly CategoriasService: CategoriasService) {}
 
   @Post()
-  create(@Body() createCategoriaDto: CreateCategoriaDto) {
+  create(@Body() createCategoriaDto: CategoriaDto) {
     return this.CategoriasService.create(createCategoriaDto);
   }
 
@@ -34,7 +33,7 @@ export class CategoriasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoriaDto: UpdateCategoriaDto) {
+  update(@Param('id') id: string, @Body() updateCategoriaDto: CategoriaDto) {
     return this.CategoriasService.update(+id, updateCategoriaDto);
   }
 

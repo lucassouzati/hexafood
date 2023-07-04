@@ -11,6 +11,7 @@ import { ProdutosService } from '../../core/application/services/produtos.servic
 import { Produto } from '../../core/domain/entities/produto.entity';
 
 import { ApiTags, ApiBody } from '@nestjs/swagger';
+import { ProdutoDto } from '../driven/dto/produto.dto';
 
 @ApiTags('produtos')
 @Controller('produtos')
@@ -18,18 +19,10 @@ export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
   @Post()
-  @ApiBody({ type: [Produto] })
-  createManyProdutos(@Body() produto: Produto[]) {
+  @ApiBody({ type: [ProdutoDto] })
+  createManyProdutos(@Body() produto: ProdutoDto[]) {
     return this.produtosService.createManyProdutos(produto);
   }
-
-  // create(@Body() createCategoriaDto: CreateCategoriaDto) {
-
-  // @Post()
-  // // @ApiBody({ type: Produto })
-  // create(@Body() produto: Produto) {
-  //   return this.produtosService.create(produto);
-  // }
 
   @Get(':id_categoria')
   async findByIdCategoria(
@@ -39,7 +32,7 @@ export class ProdutosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() produto: Produto) {
+  update(@Param('id') id: number, @Body() produto: ProdutoDto) {
     return this.produtosService.update(+id, produto);
   }
 
