@@ -16,6 +16,11 @@ export class PagamentosController {
     return this.pagamentosService.createPagamento(createPagamentoDto)
   }
 
+  @Get()
+  findAll() {
+    return this.pagamentosService.findAll()
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pagamentosService.findById(+id)

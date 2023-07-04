@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export class Pagamento {
-  id?: number;
   id_cliente?: number;
   id_pedido: number;
   id_transacao: number;
@@ -10,6 +9,10 @@ export class Pagamento {
   valor: number;
   updatedAt?: Date;
   createdAt?: Date;
+}
+
+export class PagamentoDto extends Pagamento {
+  id: number;
 }
 
 export class CreatePagamentoDto {

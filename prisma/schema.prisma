@@ -44,8 +44,8 @@ model Produto {
 }
 
 model Pagamento {
-  id           Int    @default(autoincrement())
-  id_cliente   Int
+  id           Int    @id @default(autoincrement())
+  id_cliente   Int?   
   id_pedido    Int
   id_transacao Int    @unique
   descricao    String
@@ -57,7 +57,7 @@ model Pagamento {
 
   // TODO implementar relação quando Pedido existir
   // pedido        Pedido @relation(fields: [id_pedido], references: [id]) 
-  cliente Cliente @relation(fields: [id_cliente], references: [id])
+  cliente Cliente? @relation(fields: [id_cliente], references: [id])
 
   @@map("pagamentos")
 }
