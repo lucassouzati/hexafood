@@ -7,10 +7,11 @@ import { CategoriasService } from './categorias.service';
 import { ProdutoDto } from 'src/pedido/adapter/driven/dto/produto.dto';
 
 @Injectable()
-export class ProdutosService implements IProdutosRepository {
+export class ProdutosService {
   constructor(
     @Inject(IProdutosRepository)
     private produtosRepository: IProdutosRepository,
+    @Inject(CategoriasService)
     private categoriasService: CategoriasService,
   ) {}
 
