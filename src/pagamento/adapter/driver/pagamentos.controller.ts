@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { PagamentosService } from "../../core/application/services/pagamentos.service";
-import { CreatePagamentoDto } from "../../core/domain/entities/pagamento.entity";
+import { CreatePagamentoDto } from "../../adapter/driven/dto/pagamentoDto";
 
 @ApiTags('pagamentos')
 @Controller('pagamentos')

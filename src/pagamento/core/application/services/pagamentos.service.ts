@@ -1,12 +1,12 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { IPagamentosRepository, PAGAMENTOS_REPOSITORY } from "../ports/repositories/pagamentos.repository";
 
-import { CreatePagamentoDto, PagamentoDto } from "../../domain/entities/pagamento.entity";
+import { CreatePagamentoDto, PagamentoDto } from "../../../adapter/driven/dto/pagamentoDto";
 import { MERCADO_PAGO_CLIENT } from "../ports/clients/mercadopago.client";
 import { IPagamentosClientRepository } from "../ports/repositories/pagamentos-client.repository";
 
 @Injectable()
-export class PagamentosService implements IPagamentosRepository {
+export class PagamentosService {
 
   constructor(
     @Inject(PAGAMENTOS_REPOSITORY)

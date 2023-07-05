@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { IPagamentosRepository, PAGAMENTOS_REPOSITORY } from "../../ports/repositories/pagamentos.repository";
 
 import mercadopago from '../../../../../mocks/mercadoPagoMockService'
-import { CreatePagamentoDto, PagamentoDto } from "../../../domain/entities/pagamento.entity";
+import { CreatePagamentoDto, PagamentoDto } from "../../../../adapter/driven/dto/pagamentoDto";
 
 export const MERCADO_PAGO_CLIENT = 'MercadoPagoClient'
 

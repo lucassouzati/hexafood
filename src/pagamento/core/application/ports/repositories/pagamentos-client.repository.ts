@@ -1,4 +1,4 @@
-import { CreatePagamentoDto } from "../../../../core/domain/entities/pagamento.entity";
+import { CreatePagamentoDto } from "../../../../adapter/driven/dto/pagamentoDto";
 
 export interface IPagamentosClientRepository<T = { id: number }> {
 

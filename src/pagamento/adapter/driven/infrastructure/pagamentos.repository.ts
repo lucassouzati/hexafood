@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { IPagamentosRepository } from "src/pagamento/core/application/ports/repositories/pagamentos.repository";
-import { Pagamento, PagamentoDto } from "src/pagamento/core/domain/entities/pagamento.entity";
+import { Pagamento } from "src/pagamento/core/domain/entities/pagamento.entity";
+import { PagamentoDto } from "../dto/pagamentoDto";
 
 export class PagamentosRepository implements IPagamentosRepository {
 
