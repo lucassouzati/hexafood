@@ -12,9 +12,6 @@ USER node
 
 RUN yarn install 
 
-# Adicione o Nest CLI como uma dependência global
-RUN yarn global add @nestjs/cli
-
 # Execute o comando para gerar os arquivos do Prisma
 RUN yarn prisma generate
 

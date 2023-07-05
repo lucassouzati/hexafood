@@ -8,7 +8,7 @@ services:
     env_file:
       - .env.dev
     volumes:
-      - ./docker-compose/postgres:/docker-entrypoint-initdb.d
+      # - ./docker-compose/postgres:/docker-entrypoint-initdb.d
       - postgres:/var/lib/postgresql/data
     networks:
       - hexafood-bridge
