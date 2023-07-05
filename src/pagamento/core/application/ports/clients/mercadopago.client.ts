@@ -21,28 +21,36 @@ export class MercadoPagoClient implements IPagamentosRepository {
     mercadopago.configurations.setAccessToken('some-access-token');
   }
 
-  async createPagamento(data: CreatePagamentoDto) {
-    const description = `Hexafood - pedido ${data.id_pedido} - MercadoPago`;
+  async createPagamento({ valor, id_pedido, cliente }: CreatePagamentoDto) {
+    const description = `Hexafood - pedido ${id_pedido} - MercadoPago`;
+
+    const { nome, email, cpf } = cliente;
+    const nameParts = nome.split(' ');
+
+    const payer =
+      (nome && email) || cpf
+        ? {
+            ...(cpf &&
+              ({ identification: { type: 'CPF', number: cpf } } as const)),
+            ...(nome && {
+              first_name: nameParts[0],
+              last_name:
+                nameParts.length > 1 ? nameParts[nameParts.length - 1] : '',
+            }),
+            ...(email && { email }),
+          }
+        : null;
 
     const mpTransaction = await mercadopago.payment.create({
-      transaction_amount: data.valor,
+      transaction_amount: valor,
       description,
       payment_method_id: 'pix',
-      // TODO improve payer logic, check for customer data
-      // payer: {
-      //   email: data.cliente.email,
-      //   first_name: data.cliente.nome,
-      //   last_name: data.cliente.nome,
-      //   identification: {
-      //     type: 'CPF',
-      //     number: data.cliente.cpf
-      //   }
-      // }
+      ...(payer && { payer }),
     });
 
     return this.pagamentosRepository.createPagamento({
-      valor: data.valor,
-      id_pedido: data.id_pedido,
+      valor: valor,
+      id_pedido: id_pedido,
       id_transacao: mpTransaction.id,
       plataforma: 'mercadopago',
       descricao: description,
