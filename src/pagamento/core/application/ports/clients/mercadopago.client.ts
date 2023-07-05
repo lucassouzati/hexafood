@@ -1,24 +1,28 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { IPagamentosRepository, PAGAMENTOS_REPOSITORY } from "../../ports/repositories/pagamentos.repository";
+import { Inject, Injectable } from '@nestjs/common';
+import {
+  IPagamentosRepository,
+  PAGAMENTOS_REPOSITORY,
+} from '../../ports/repositories/pagamentos.repository';
 
-import mercadopago from '../../../../../mocks/mercadoPagoMockService'
-import { CreatePagamentoDto, PagamentoDto } from "../../../../adapter/driven/dto/pagamentoDto";
+import mercadopago from '../../../../../mocks/mercadoPagoMockService';
+import {
+  CreatePagamentoDto,
+  PagamentoDto,
+} from '../../../../adapter/driven/dto/pagamentoDto';
 
-export const MERCADO_PAGO_CLIENT = 'MercadoPagoClient'
+export const MERCADO_PAGO_CLIENT = 'MercadoPagoClient';
 
 @Injectable()
 export class MercadoPagoClient implements IPagamentosRepository {
-
   constructor(
     @Inject(PAGAMENTOS_REPOSITORY)
-    private pagamentosRepository: IPagamentosRepository
+    private pagamentosRepository: IPagamentosRepository,
   ) {
-    mercadopago.configurations.setAccessToken('some-access-token')
+    mercadopago.configurations.setAccessToken('some-access-token');
   }
 
   async createPagamento(data: CreatePagamentoDto) {
-
-    const description = `Hexafood - pedido ${data.id_pedido} - MercadoPago`
+    const description = `Hexafood - pedido ${data.id_pedido} - MercadoPago`;
 
     const mpTransaction = await mercadopago.payment.create({
       transaction_amount: data.valor,
@@ -34,27 +38,25 @@ export class MercadoPagoClient implements IPagamentosRepository {
       //     number: data.cliente.cpf
       //   }
       // }
-    })
+    });
 
     return this.pagamentosRepository.createPagamento({
       valor: data.valor,
       id_pedido: data.id_pedido,
       id_transacao: mpTransaction.id,
       plataforma: 'mercadopago',
-      descricao: description
-    })
+      descricao: description,
+    });
   }
 
-
   findAll(): Promise<PagamentoDto[]> {
-    return this.pagamentosRepository.findAll()
+    return this.pagamentosRepository.findAll();
   }
 
   findById(id: number): Promise<PagamentoDto> {
-    return this.pagamentosRepository.findById(id)
+    return this.pagamentosRepository.findById(id);
   }
   remove(id: number) {
-    return this.pagamentosRepository.remove(id)
+    return this.pagamentosRepository.remove(id);
   }
-
 }
