@@ -8,4 +8,3 @@ export class Pagamento {
   updatedAt?: Date;
   createdAt?: Date;
 }
-
