@@ -12,9 +12,10 @@ import { ValidationFilter } from './adapter/driven/filters/validation.filter';
 import { PedidosRepository } from './adapter/driven/infraestructure/pedidos.repository';
 import { IPedidosRepository } from './core/application/ports/repositories/pedidos.repository';
 import { PedidosService } from './core/application/services/pedidos.service';
+import { PedidosController } from './adapter/driver/pedidos.controller';
 
 @Module({
-  controllers: [ProdutosController, CategoriasController],
+  controllers: [ProdutosController, CategoriasController, PedidosController],
   providers: [
     { provide: IProdutosRepository, useClass: ProdutosRepository },
     { provide: ICategoriasRepository, useClass: CategoriasRepository },

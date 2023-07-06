@@ -1,13 +1,16 @@
 import { Cliente } from './../../../../identificacao/core/domain/entities/cliente.entity';
 import { StatusPedido } from '../enum/status-pedido.enum';
+import { Produto } from './produto.entity';
 export class Pedido {
-  id: number;
+  id?: number;
   codigo_pedido: string;
-  cliente?: Cliente;
   valor_total: number;
   status: StatusPedido;
   createdAt?: Date;
   updatedAt?: Date;
+  id_cliente?: number;
+  cliente?: Cliente;
+  itens: Item[];
 
   constructor() {
     this.codigo_pedido = this.generateRandomCode();
@@ -25,4 +28,13 @@ export class Pedido {
     }
     return result;
   }
+}
+
+export class Item {
+  id?: number;
+  // numero_item: number;
+  quantidade: number;
+  valor: number;
+  id_produto: number;
+  produto?: Produto;
 }

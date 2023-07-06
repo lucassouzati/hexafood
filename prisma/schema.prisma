@@ -40,6 +40,7 @@ model Produto {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @default(now())
   categoria    Categoria @relation(fields: [id_categoria], references: [id])
+  itens         Item[]
 
   @@map("produtos")
 }
@@ -82,6 +83,22 @@ model Pedido {
 
   id_cliente Int?
   cliente    Cliente? @relation(fields: [id_cliente], references: [id])
+  itens       Item[]
 
   @@map("pedidos")
+}
+
+model Item {
+  id          Int   @id @default(autoincrement())
+  // numero_item Int
+  quantidade  Int
+  valor       Float
+
+  id_pedido Int
+  pedido    Pedido @relation(fields: [id_pedido], references: [id])
+
+  id_produto Int
+  produto    Produto @relation(fields: [id_produto], references: [id])
+
+  @@map("itens")
 }

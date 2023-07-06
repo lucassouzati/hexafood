@@ -40,4 +40,8 @@ export class InMemoryProdutosRepository implements IProdutosRepository {
     this.produtos.splice(index, 1);
     return item;
   }
+
+  findByIds(ids: number[]) {
+    throw new Error('Method not implemented!');
+  }
 }

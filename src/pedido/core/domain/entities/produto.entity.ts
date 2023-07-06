@@ -1,3 +1,4 @@
+import { Pedido } from './pedido.entity';
 
 export class Produto {
   id?: number;

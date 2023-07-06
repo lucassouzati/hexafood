@@ -16,11 +16,15 @@ export class ProdutosService {
   ) {}
 
   async createManyProdutos(produtos: ProdutoDto[]) {
-    if (produtos.some((produto) => !produto || Object.values(produto).some((value) => !value))) {
+    if (
+      produtos.some(
+        (produto) => !produto || Object.values(produto).some((value) => !value),
+      )
+    ) {
       throw new ProdutoInvalidoException();
     }
 
-    const categorias =  await this.categoriasService.findAll();
+    const categorias = await this.categoriasService.findAll();
     const categoriaIds = categorias.map((categoria) => categoria.id);
 
     for (const produto of produtos) {
@@ -28,13 +32,13 @@ export class ProdutosService {
         throw new CategoriaInexistenteException();
       }
     }
-    
+
     return this.produtosRepository.createManyProdutos(produtos);
   }
 
   findByIdCategoria(id_categoria: number): Promise<Produto[]> {
-
-    return this.produtosRepository.findByIdCategoria(id_categoria)
+    return this.produtosRepository
+      .findByIdCategoria(id_categoria)
       .then((produtos) => {
         if (!produtos || produtos.length === 0) {
           throw new CategoriaInexistenteException();
@@ -49,5 +53,9 @@ export class ProdutosService {
 
   remove(id: number) {
     return this.produtosRepository.remove(id);
+  }
+
+  findProdutosByIds(ids: number[]): Promise<Produto[]> {
+    return this.produtosRepository.findByIds(ids);
   }
 }

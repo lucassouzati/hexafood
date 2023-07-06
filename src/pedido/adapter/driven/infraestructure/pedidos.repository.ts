@@ -15,8 +15,19 @@ export class PedidosRepository implements IPedidosRepository {
       data: {
         codigo_pedido: pedido.codigo_pedido,
         valor_total: pedido.valor_total,
-        id_cliente: pedido.cliente ? pedido.cliente.id : null,
+        id_cliente: pedido.id_cliente,
         status: pedido.status.toString(),
+        itens: {
+          create: pedido.itens.map((item) => ({
+            quantidade: item.quantidade,
+            valor: item.valor,
+            produto: {
+              connect: {
+                id: item.id_produto,
+              },
+            },
+          })),
+        },
       },
     });
   }
@@ -24,7 +35,12 @@ export class PedidosRepository implements IPedidosRepository {
     return this.prisma.pedido
       .findMany({
         include: {
-          cliente: true, // Inclui os dados do cliente
+          cliente: true,
+          itens: {
+            include: {
+              produto: true,
+            },
+          },
         },
       })
       .then((results) => {
@@ -38,6 +54,14 @@ export class PedidosRepository implements IPedidosRepository {
           pedido.updatedAt = result.updatedAt;
           pedido.cliente = result.cliente;
           pedido.valor_total = result.valor_total;
+          pedido.itens = result.itens.map((item) => ({
+            id: item.id,
+            // numero_item: item.numero_item,
+            quantidade: item.quantidade,
+            valor: item.valor,
+            id_produto: item.id_produto,
+            produto: item.produto,
+          }));
           return pedido;
         });
       });

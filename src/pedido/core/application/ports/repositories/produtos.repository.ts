@@ -11,4 +11,6 @@ export interface IProdutosRepository {
   update(id: number, produto: ProdutoDto);
 
   remove(id: number);
+
+  findByIds(ids: number[]);
 }

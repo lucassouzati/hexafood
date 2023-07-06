@@ -38,7 +38,7 @@ export class ProdutosRepository implements IProdutosRepository {
         valor: produto.valor,
         descricao: produto.descricao,
         imagem: produto.imagem,
-        id_categoria: produto.id_categoria
+        id_categoria: produto.id_categoria,
       },
     });
   }
@@ -47,6 +47,16 @@ export class ProdutosRepository implements IProdutosRepository {
     return this.prisma.produto.delete({
       where: {
         id,
+      },
+    });
+  }
+
+  async findByIds(ids: number[]): Promise<Produto[] | null> {
+    return this.prisma.produto.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
       },
     });
   }
