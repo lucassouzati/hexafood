@@ -3,11 +3,13 @@
 import { PrismaClient } from '@prisma/client';
 import { seedCategorias } from './seeders/categorias';
 import { seedProdutos } from './seeders/produtos';
+import { seedClientes } from './seeders/clientes';
 const prisma = new PrismaClient();
 
 async function main() {
   await seedCategorias(prisma);
   await seedProdutos(prisma);
+  await seedClientes(prisma);
 }
 
 main()
