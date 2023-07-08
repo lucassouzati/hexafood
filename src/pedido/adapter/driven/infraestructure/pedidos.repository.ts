@@ -31,9 +31,13 @@ export class PedidosRepository implements IPedidosRepository {
       },
     });
   }
-  findAll(): Promise<Pedido[]> {
+  findAll(status?: StatusPedido): Promise<Pedido[]> {
     return this.prisma.pedido
       .findMany({
+        where: status ? { status: status.toString() } : undefined, // Filtrar por status, se ele for fornecido
+        orderBy: {
+          createdAt: 'asc', // Ordenar por data de criação, em ordem crescente
+        },
         include: {
           cliente: true,
           itens: {

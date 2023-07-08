@@ -6,7 +6,7 @@ export const IPedidosRepository = 'IPedidosRepository';
 export interface IPedidosRepository {
   create(data: Pedido);
 
-  findAll(): Promise<Pedido[]>;
+  findAll(status?: StatusPedido): Promise<Pedido[]>;
 
   update(id: number, pedido: Pedido);
 

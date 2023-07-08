@@ -28,4 +28,24 @@ export class PedidosController {
   async findAll(): Promise<PedidoDTO[] | null> {
     return this.pedidosService.listAllPedidos();
   }
+
+  @Get('/consultar_pedidos_pendentes')
+  async consultarPedidosPendentes(): Promise<PedidoDTO[] | null> {
+    return this.pedidosService.consultarPedidosPendentes();
+  }
+
+  @Patch(':id/iniciar_preparacao')
+  async iniciarPreparacaoPedido(@Param('id') id: number) {
+    return this.pedidosService.iniciarPreparacao(id);
+  }
+
+  @Patch(':id/finalizar_preparacao')
+  async finalizarPreparacaoPedido(@Param('id') id: number) {
+    return this.pedidosService.finalizarPreparacao(id);
+  }
+
+  @Patch(':id/finalizar_pedido')
+  async finalizarPedido(@Param('id') id: number) {
+    return this.pedidosService.finalizarPedido(id);
+  }
 }

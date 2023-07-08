@@ -6,6 +6,7 @@ import { PedidoDTO } from 'src/pedido/adapter/driven/dto/pedido.dto';
 import { ProdutosService } from './produtos.service';
 import EventEmitter from 'events';
 import { NovoPedidoEvent } from '../events/novo-pedido.event';
+import { StatusPedido } from '../../domain/enum/status-pedido.enum';
 
 @Injectable()
 export class PedidosService {
@@ -70,5 +71,17 @@ export class PedidosService {
       (total, item) => total + item.quantidade * item.valor,
       0,
     );
+  }
+  consultarPedidosPendentes(): PedidoDTO[] | PromiseLike<PedidoDTO[]> {
+    return this.pedidosRepository.findAll(StatusPedido.RECEBIDO);
+  }
+  iniciarPreparacao(id: number): Promise<Pedido> {
+    throw new Error('Method not implemented.');
+  }
+  finalizarPreparacao(id: number): Promise<Pedido> {
+    throw new Error('Method not implemented.');
+  }
+  finalizarPedido(id: number): Promise<Pedido> {
+    throw new Error('Method not implemented.');
   }
 }
