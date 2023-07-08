@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker/locale/pt_BR';
 
 const generateCliente = (id: number) => ({
   where: { id },
