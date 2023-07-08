@@ -11,4 +11,6 @@ export interface IPedidosRepository {
   update(id: number, pedido: Pedido);
 
   findByStatus(status: StatusPedido);
+
+  findById(id: number): Promise<Pedido>;
 }

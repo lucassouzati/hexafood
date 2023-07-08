@@ -75,13 +75,19 @@ export class PedidosService {
   consultarPedidosPendentes(): PedidoDTO[] | PromiseLike<PedidoDTO[]> {
     return this.pedidosRepository.findAll(StatusPedido.RECEBIDO);
   }
-  iniciarPreparacao(id: number): Promise<Pedido> {
-    throw new Error('Method not implemented.');
+  async iniciarPreparacao(id: number): Promise<Pedido> {
+    const pedido = await this.pedidosRepository.findById(id);
+    pedido.status = StatusPedido.EM_PREPARACAO;
+    return this.pedidosRepository.update(id, pedido);
   }
-  finalizarPreparacao(id: number): Promise<Pedido> {
-    throw new Error('Method not implemented.');
+  async finalizarPreparacao(id: number): Promise<Pedido> {
+    const pedido = await this.pedidosRepository.findById(id);
+    pedido.status = StatusPedido.PRONTO;
+    return this.pedidosRepository.update(id, pedido);
   }
-  finalizarPedido(id: number): Promise<Pedido> {
-    throw new Error('Method not implemented.');
+  async finalizarPedido(id: number): Promise<Pedido> {
+    const pedido = await this.pedidosRepository.findById(id);
+    pedido.status = StatusPedido.FINALIZADO;
+    return this.pedidosRepository.update(id, pedido);
   }
 }

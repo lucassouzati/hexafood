@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   Delete,
+  BadRequestException,
 } from '@nestjs/common';
 import { PedidosService } from '../../core/application/services/pedidos.service';
 import { Produto } from '../../core/domain/entities/produto.entity';
@@ -35,17 +36,29 @@ export class PedidosController {
   }
 
   @Patch(':id/iniciar_preparacao')
-  async iniciarPreparacaoPedido(@Param('id') id: number) {
-    return this.pedidosService.iniciarPreparacao(id);
+  async iniciarPreparacaoPedido(@Param('id') id: string) {
+    const idAsNumber = parseInt(id, 10);
+    if (isNaN(idAsNumber)) {
+      throw new BadRequestException(`Invalid id: ${id}`);
+    }
+    return this.pedidosService.iniciarPreparacao(idAsNumber);
   }
 
   @Patch(':id/finalizar_preparacao')
-  async finalizarPreparacaoPedido(@Param('id') id: number) {
-    return this.pedidosService.finalizarPreparacao(id);
+  async finalizarPreparacaoPedido(@Param('id') id: string) {
+    const idAsNumber = parseInt(id, 10);
+    if (isNaN(idAsNumber)) {
+      throw new BadRequestException(`Invalid id: ${id}`);
+    }
+    return this.pedidosService.finalizarPreparacao(idAsNumber);
   }
 
   @Patch(':id/finalizar_pedido')
-  async finalizarPedido(@Param('id') id: number) {
-    return this.pedidosService.finalizarPedido(id);
+  async finalizarPedido(@Param('id') id: string) {
+    const idAsNumber = parseInt(id, 10);
+    if (isNaN(idAsNumber)) {
+      throw new BadRequestException(`Invalid id: ${id}`);
+    }
+    return this.pedidosService.finalizarPedido(idAsNumber);
   }
 }
