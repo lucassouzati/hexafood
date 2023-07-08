@@ -25,4 +25,10 @@ export class ClientesRepository implements IClientesRepository {
     });
     return exist > 0;
   }
+
+  async findById(id: number): Promise<Cliente | null> {
+    return this.prisma.cliente.findUnique({
+      where: { id },
+    });
+  }
 }

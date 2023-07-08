@@ -74,7 +74,6 @@ export class PedidosRepository implements IPedidosRepository {
       data: {
         codigo_pedido: pedido.codigo_pedido,
         status: pedido.status.toString(),
-        createdAt: pedido.createdAt,
         updatedAt: pedido.updatedAt,
         id_cliente: pedido.cliente ? pedido.cliente.id : null,
         valor_total: pedido.valor_total,

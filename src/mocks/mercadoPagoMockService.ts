@@ -45,7 +45,7 @@ class MercadoPagoPayment {
     console.log(data)
 
     return Promise.resolve({
-      "id": 5466310457,
+      "id": BigInt(5466310457),
       "status": "pending",
       "status_detail": "pending_waiting_transfer",
       "transaction_details": {

@@ -1,10 +1,11 @@
+import { ClientesService } from './../../../../identificacao/core/application/services/clientes.service';
 import { Injectable, Inject } from '@nestjs/common';
 import { Item, Pedido } from '../../domain/entities/pedido.entity';
 import { IPedidosRepository } from './../ports/repositories/pedidos.repository';
-import { CategoriasService } from './categorias.service';
-import { CreateItemDTO } from 'src/pedido/adapter/driven/dto/item.dto';
 import { PedidoDTO } from 'src/pedido/adapter/driven/dto/pedido.dto';
 import { ProdutosService } from './produtos.service';
+import EventEmitter from 'events';
+import { NovoPedidoEvent } from '../events/novo-pedido.event';
 
 @Injectable()
 export class PedidosService {
@@ -12,6 +13,9 @@ export class PedidosService {
     @Inject(IPedidosRepository)
     private pedidosRepository: IPedidosRepository,
     private produtosService: ProdutosService,
+    private clientesService: ClientesService,
+    @Inject('EventEmitter')
+    private eventEmitter: EventEmitter,
   ) {}
 
   async createNewPedido(pedidoDto: PedidoDTO) {
@@ -23,6 +27,12 @@ export class PedidosService {
     const produtos = await this.produtosService.findProdutosByIds(productIds);
 
     const pedido = new Pedido();
+
+    if (pedidoDto.id_cliente) {
+      const cliente = await this.clientesService.findById(pedidoDto.id_cliente);
+      pedido.cliente = cliente;
+    }
+
     pedido.id_cliente = pedidoDto.id_cliente;
     pedido.itens = pedidoDto.itens.map((item) => {
       const produto = produtos.find((p) => p.id === item.id_produto);
@@ -33,8 +43,12 @@ export class PedidosService {
       };
     });
     pedido.valor_total = this.calculaValorTotal(pedido.itens);
+    const { id } = await this.pedidosRepository.create(pedido);
+    pedido.id = id;
+    console.log('Novo pedido criado: ', pedido);
+    this.eventEmitter.emit('novo.pedido', new NovoPedidoEvent(pedido));
 
-    return this.pedidosRepository.create(pedido);
+    return pedido;
   }
 
   async listAllPedidos(): Promise<PedidoDTO[]> {

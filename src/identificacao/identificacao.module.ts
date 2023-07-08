@@ -19,5 +19,6 @@ import { ValidationFilter } from './adapter/driven/infrastructure/filters/valida
     },
     ClientesService,
   ],
+  exports: [ClientesService],
 })
 export class IdentificacaoModule {}

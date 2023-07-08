@@ -15,5 +15,6 @@ import {
     { provide: MERCADO_PAGO_CLIENT, useClass: MercadoPagoClient },
     PagamentosService,
   ],
+  exports: [PagamentosService], // Exportando o serviço para uso em outros módulos
 })
 export class PagamentoModule {}

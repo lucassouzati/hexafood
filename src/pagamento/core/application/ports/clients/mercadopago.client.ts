@@ -9,6 +9,7 @@ import {
   CreatePagamentoDto,
   PagamentoDto,
 } from '../../../../adapter/driven/dto/pagamentoDto';
+import { Pagamento } from 'src/pagamento/core/domain/entities/pagamento.entity';
 
 export const MERCADO_PAGO_CLIENT = 'MercadoPagoClient';
 
@@ -57,11 +58,11 @@ export class MercadoPagoClient implements IPagamentosRepository {
     });
   }
 
-  findAll(): Promise<PagamentoDto[]> {
+  findAll(): Promise<Pagamento[]> {
     return this.pagamentosRepository.findAll();
   }
 
-  findById(id: number): Promise<PagamentoDto> {
+  findById(id: number): Promise<Pagamento> {
     return this.pagamentosRepository.findById(id);
   }
   remove(id: number) {

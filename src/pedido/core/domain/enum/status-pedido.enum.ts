@@ -4,4 +4,5 @@ export enum StatusPedido {
   EM_PREPARACAO,
   PRONTO,
   FINALIZADO,
+  CANCELADO,
 }

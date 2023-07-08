@@ -21,4 +21,12 @@ export class InMemoryClientesRepository implements IClientesRepository {
   async existsByCpf(cpf: string): Promise<boolean> {
     return this.clientes.some((c) => c.cpf == cpf);
   }
+
+  async findById(id: number) {
+    const cliente = this.clientes.find((c) => c.id == id);
+    if (!cliente) {
+      throw new Error(`Cliente com id ${id} não encontrado!`);
+    }
+    return cliente;
+  }
 }

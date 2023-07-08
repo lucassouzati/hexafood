@@ -10,6 +10,7 @@ import {
 } from '../../../adapter/driven/dto/pagamentoDto';
 import { MERCADO_PAGO_CLIENT } from '../ports/clients/mercadopago.client';
 import { IPagamentosClientRepository } from '../ports/repositories/pagamentos-client.repository';
+import { Pagamento } from '../../domain/entities/pagamento.entity';
 
 @Injectable()
 export class PagamentosService {
@@ -38,11 +39,24 @@ export class PagamentosService {
     });
   }
 
-  findAll(): Promise<PagamentoDto[]> {
-    return this.pagamentosRepository.findAll();
+  async findAll(): Promise<any[]> {
+    const pagamentos = await this.pagamentosRepository.findAll();
+    return pagamentos.map((pagamento) => ({
+      id: pagamento.id,
+      id_cliente: pagamento.id_cliente,
+      id_pedido: pagamento.id_pedido,
+      id_transacao: pagamento.id_transacao.toString(),
+      descricao: pagamento.descricao,
+      plataforma: pagamento.plataforma,
+      valor: pagamento.valor,
+      updatedAt: pagamento.updatedAt,
+      createdAt: pagamento.createdAt,
+      cliente: pagamento.cliente,
+      pedido: pagamento.pedido,
+    }));
   }
 
-  findById(id: number): Promise<PagamentoDto> {
+  findById(id: number): Promise<Pagamento> {
     return this.pagamentosRepository.findById(id);
   }
   remove(id: number) {

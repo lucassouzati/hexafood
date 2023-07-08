@@ -28,4 +28,8 @@ export class ClientesService {
   findUnique(cpf: string) {
     return this.clientesRepository.findUnique(cpf);
   }
+
+  findById(id: number) {
+    return this.clientesRepository.findById(id);
+  }
 }

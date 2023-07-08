@@ -9,20 +9,38 @@ export class PagamentosRepository implements IPagamentosRepository {
   constructor() {
     this.prisma = new PrismaClient();
   }
-  createPagamento(data: Pagamento): Promise<PagamentoDto> {
+  createPagamento(data: Pagamento): Promise<Pagamento> {
     return this.prisma.pagamento.create({
       data: {
-        ...data,
+        id_pedido: data.id_pedido,
+        id_transacao: data.id_transacao,
+        descricao: data.descricao,
+        plataforma: data.plataforma,
+        valor: data.valor,
         id_cliente: data.id_cliente || null,
       },
     });
   }
 
-  findAll(): Promise<PagamentoDto[]> {
-    return this.prisma.pagamento.findMany();
+  findAll(): Promise<Pagamento[]> {
+    return this.prisma.pagamento.findMany().then((results) => {
+      return results.map((result) => {
+        const pagamento = new Pagamento();
+        pagamento.id = result.id;
+        pagamento.id_cliente = result.id_cliente;
+        pagamento.valor = result.valor;
+        pagamento.id_pedido = result.id_pedido;
+        pagamento.id_transacao = result.id_transacao;
+        pagamento.descricao = result.descricao;
+        pagamento.plataforma = result.plataforma;
+        pagamento.createdAt = result.createdAt;
+        pagamento.updatedAt = result.updatedAt;
+        return pagamento;
+      });
+    });
   }
 
-  findById(id: number): Promise<PagamentoDto | null> {
+  findById(id: number): Promise<Pagamento | null> {
     return this.prisma.pagamento.findUnique({
       where: { id },
     });

@@ -13,8 +13,13 @@ import { PedidosRepository } from './adapter/driven/infraestructure/pedidos.repo
 import { IPedidosRepository } from './core/application/ports/repositories/pedidos.repository';
 import { PedidosService } from './core/application/services/pedidos.service';
 import { PedidosController } from './adapter/driver/pedidos.controller';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { NovoPedidoListener } from './core/application/listeners/novo-pedido.listener';
+import { PagamentoModule } from 'src/pagamento/pagamento.module';
+import { IdentificacaoModule } from 'src/identificacao/identificacao.module';
 
 @Module({
+  imports: [PagamentoModule, IdentificacaoModule],
   controllers: [ProdutosController, CategoriasController, PedidosController],
   providers: [
     { provide: IProdutosRepository, useClass: ProdutosRepository },
@@ -24,9 +29,14 @@ import { PedidosController } from './adapter/driver/pedidos.controller';
       provide: APP_FILTER,
       useClass: ValidationFilter,
     },
+    {
+      provide: 'EventEmitter',
+      useExisting: EventEmitter2,
+    },
     ProdutosService,
     CategoriasService,
     PedidosService,
+    NovoPedidoListener,
   ],
 })
 export class PedidoModule {}

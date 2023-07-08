@@ -8,4 +8,6 @@ export interface IClientesRepository {
   findUnique(cpf: string): Promise<Cliente>;
 
   existsByCpf(cpf: string): Promise<boolean>;
+
+  findById(id: number): Promise<Cliente>;
 }

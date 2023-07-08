@@ -40,16 +40,47 @@ model Produto {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @default(now())
   categoria    Categoria @relation(fields: [id_categoria], references: [id])
-  itens         Item[]
+  itens        Item[]
 
   @@map("produtos")
+}
+
+model Pedido {
+  id            Int      @id @default(autoincrement())
+  codigo_pedido String
+  valor_total   Float
+  status        String   @default("INICIADO")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+
+  id_cliente Int?
+  cliente    Cliente?    @relation(fields: [id_cliente], references: [id])
+  itens      Item[]
+  Pagamento  Pagamento[]
+
+  @@map("pedidos")
+}
+
+model Item {
+  id         Int   @id @default(autoincrement())
+  // numero_item Int
+  quantidade Int
+  valor      Float
+
+  id_pedido Int
+  pedido    Pedido @relation(fields: [id_pedido], references: [id])
+
+  id_produto Int
+  produto    Produto @relation(fields: [id_produto], references: [id])
+
+  @@map("itens")
 }
 
 model Pagamento {
   id           Int    @id @default(autoincrement())
   id_cliente   Int?
   id_pedido    Int
-  id_transacao Int    @unique
+  id_transacao BigInt @unique
   descricao    String
   plataforma   String
   valor        Float
@@ -58,8 +89,11 @@ model Pagamento {
   updatedAt DateTime @default(now())
 
   // TODO implementar relação quando Pedido existir
+  pedido Pedido? @relation(fields: [id_pedido], references: [id])
+
   // pedido        Pedido @relation(fields: [id_pedido], references: [id]) 
   cliente Cliente? @relation(fields: [id_cliente], references: [id])
+
 
   @@map("pagamentos")
 }
@@ -72,33 +106,3 @@ model Pagamento {
 //   PRONTO
 //   FINALIZADO
 // }
-
-model Pedido {
-  id            Int      @id @default(autoincrement())
-  codigo_pedido String
-  valor_total   Float
-  status        String   @default("INICIADO")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-
-  id_cliente Int?
-  cliente    Cliente? @relation(fields: [id_cliente], references: [id])
-  itens       Item[]
-
-  @@map("pedidos")
-}
-
-model Item {
-  id          Int   @id @default(autoincrement())
-  // numero_item Int
-  quantidade  Int
-  valor       Float
-
-  id_pedido Int
-  pedido    Pedido @relation(fields: [id_pedido], references: [id])
-
-  id_produto Int
-  produto    Produto @relation(fields: [id_produto], references: [id])
-
-  @@map("itens")
-}
