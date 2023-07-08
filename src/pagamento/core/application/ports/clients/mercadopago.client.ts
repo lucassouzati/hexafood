@@ -42,20 +42,20 @@ export class MercadoPagoClient implements IPagamentosRepository {
           }
         : null;
 
-    const mpTransaction = await mercadopago.payment.create({
+    return mercadopago.payment.create({
       transaction_amount: valor,
       description,
       payment_method_id: 'pix',
       ...(payer && { payer }),
     });
 
-    return this.pagamentosRepository.createPagamento({
-      valor: valor,
-      id_pedido: id_pedido,
-      id_transacao: mpTransaction.id,
-      plataforma: 'mercadopago',
-      descricao: description,
-    });
+    // return this.pagamentosRepository.createPagamento({
+    //   valor: valor,
+    //   id_pedido: id_pedido,
+    //   id_transacao: mpTransaction.id,
+    //   plataforma: 'mercadopago',
+    //   descricao: description,
+    // });
   }
 
   findAll(): Promise<Pagamento[]> {

@@ -28,9 +28,19 @@ export class PagamentosService {
   async createPagamento(data: CreatePagamentoDto) {
     const description = `Hexafood - pedido ${data.id_pedido} - MercadoPago`;
 
+    if (!data.cliente) {
+      data.cliente = {
+        id: null,
+        nome: 'Anônimo',
+        email: 'cliente@anonimo.com',
+        cpf: '00000000000',
+      };
+    }
+
     const { id } = await this.pagamentosClient.createPagamento(data);
 
     return this.pagamentosRepository.createPagamento({
+      id_cliente: data.cliente.id,
       valor: data.valor,
       id_pedido: data.id_pedido,
       id_transacao: id,

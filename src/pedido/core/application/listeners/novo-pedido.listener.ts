@@ -24,6 +24,7 @@ export class NovoPedidoListener {
 
     if (pedido.cliente) {
       pagamentoDto.cliente = {
+        id: pedido.cliente.id,
         nome: pedido.cliente.nome,
         cpf: pedido.cliente.cpf,
       };

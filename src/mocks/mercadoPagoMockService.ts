@@ -45,7 +45,7 @@ class MercadoPagoPayment {
     console.log(data)
 
     return Promise.resolve({
-      "id": BigInt(5466310457),
+      "id": this.generateRandomBigInt(),
       "status": "pending",
       "status_detail": "pending_waiting_transfer",
       "transaction_details": {
@@ -71,6 +71,17 @@ class MercadoPagoPayment {
       }
     })
   }
+
+  //Gera um número nesse formato 5466310457
+  private generateRandomBigInt(): bigint {
+    let min = 1000000000; // O menor número de 10 dígitos.
+    let max = 9999999999; // O maior número de 10 dígitos.
+
+    // Geramos um número aleatório de 10 dígitos, convertemos para BigInt e retornamos.
+    let randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
+    return BigInt(randomNumber);
+  }
+
 }
 
 class MercadoPago {

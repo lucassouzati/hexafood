@@ -14,8 +14,11 @@ export class CreatePagamentoDto {
 
   @ApiProperty()
   cliente?: {
+    id?: number;
     nome?: string;
     email?: string;
     cpf?: string;
   };
+
+  id_cliente?: number;
 }
