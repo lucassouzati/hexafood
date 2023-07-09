@@ -11,12 +11,13 @@ const generateCliente = (id: number) => ({
   },
 });
 
-export const seedClientes = (client: PrismaClient) => {
+export const seedClientes = async (client: PrismaClient) => {
   const clientesPromises = [];
   for (let i = 1; i <= 50; i++) {
     clientesPromises.push(client.cliente.upsert(generateCliente(i)));
   }
-  return Promise.all(clientesPromises);
+  await Promise.all(clientesPromises);
+  await client.$executeRaw`SELECT setval(\'clientes_id_seq\', (SELECT MAX(id) from "clientes"))`;
 };
 
 const generateRandomCPF = () => {

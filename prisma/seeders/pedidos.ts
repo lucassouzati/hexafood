@@ -27,7 +27,8 @@ export const seedPedidos = async (client: PrismaClient) => {
     const pedido: Pedido = await SetPedidos(i);
     pedidosPromises.push(client.pedido.upsert(generatePedido(pedido)));
   }
-  return Promise.all(pedidosPromises);
+  await Promise.all(pedidosPromises);
+  await client.$executeRaw`SELECT setval(\'pedidos_id_seq\', (SELECT MAX(id) from "pedidos"))`;
 };
 
 

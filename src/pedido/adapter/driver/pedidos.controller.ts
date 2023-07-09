@@ -30,36 +30,36 @@ export class PedidosController {
     return this.pedidosService.listAllPedidos();
   }
 
-  // @Get('/consultar_pedidos_pendentes')
-  // async consultarPedidosPendentes(): Promise<PedidoDTO[] | null> {
-  //   return this.pedidosService.consultarPedidosPendentes();
-  // }
+  @Get('/consultar_pedidos_pendentes')
+  async consultarPedidosPendentes(): Promise<PedidoDTO[] | null> {
+    return this.pedidosService.consultarPedidosPendentes();
+  }
 
-  // @Patch(':id/iniciar_preparacao')
-  // async iniciarPreparacaoPedido(@Param('id') id: string) {
-  //   const idAsNumber = parseInt(id, 10);
-  //   if (isNaN(idAsNumber)) {
-  //     throw new BadRequestException(`Invalid id: ${id}`);
-  //   }
-  //   return this.pedidosService.iniciarPreparacao(idAsNumber);
-  // }
+  @Patch(':id/iniciar_preparacao')
+  async iniciarPreparacaoPedido(@Param('id') id: string) {
+    const idAsNumber = parseInt(id, 10);
+    if (isNaN(idAsNumber)) {
+      throw new BadRequestException(`Invalid id: ${id}`);
+    }
+    return this.pedidosService.iniciarPreparacao(idAsNumber);
+  }
 
-  // @Patch(':id/finalizar_preparacao')
-  // async finalizarPreparacaoPedido(@Param('id') id: string) {
-  //   const idAsNumber = parseInt(id, 10);
-  //   if (isNaN(idAsNumber)) {
-  //     throw new BadRequestException(`Invalid id: ${id}`);
-  //   }
-  //   return this.pedidosService.finalizarPreparacao(idAsNumber);
-  // }
+  @Patch(':id/finalizar_preparacao')
+  async finalizarPreparacaoPedido(@Param('id') id: string) {
+    const idAsNumber = parseInt(id, 10);
+    if (isNaN(idAsNumber)) {
+      throw new BadRequestException(`Invalid id: ${id}`);
+    }
+    return this.pedidosService.finalizarPreparacao(idAsNumber);
+  }
 
-  // @Patch(':id/finalizar_pedido')
-  // async finalizarPedido(@Param('id') id: string) {
-  //   const idAsNumber = parseInt(id, 10);
-  //   if (isNaN(idAsNumber)) {
-  //     throw new BadRequestException(`Invalid id: ${id}`);
-  //   }
-  //   return this.pedidosService.finalizarPedido(idAsNumber);
-  // }
+  @Patch(':id/finalizar_pedido')
+  async finalizarPedido(@Param('id') id: string) {
+    const idAsNumber = parseInt(id, 10);
+    if (isNaN(idAsNumber)) {
+      throw new BadRequestException(`Invalid id: ${id}`);
+    }
+    return this.pedidosService.finalizarPedido(idAsNumber);
+  }
 
 }

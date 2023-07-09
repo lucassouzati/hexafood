@@ -25,8 +25,8 @@ const generateProduto = (
   },
 });
 
-export const seedProdutos = (client: PrismaClient) => {
-  return Promise.all([
+export const seedProdutos = async (client: PrismaClient) => {
+  await Promise.all([
     client.produto.upsert(
       generateProduto(
         1,
@@ -160,4 +160,6 @@ export const seedProdutos = (client: PrismaClient) => {
       ),
     ),
   ]);
+
+  await client.$executeRaw`SELECT setval(\'produtos_id_seq\', (SELECT MAX(id) from "produtos"))`;
 };
