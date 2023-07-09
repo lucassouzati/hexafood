@@ -17,6 +17,7 @@ RUN yarn prisma generate
 
 # # Copie o script de inicialização para o container
 COPY start.sh .
+COPY wait-for-it.sh .
 
 # Comando para executar o script de inicialização
 # CMD ["./start.sh"]
