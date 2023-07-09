@@ -45,7 +45,7 @@ export class PagamentosService {
     });
   }
 
-  async findAll(): Promise<Pagamento[]> {
+  async findAll(): Promise<any[]> {
     const pagamentos = await this.pagamentosRepository.findAll();
 
     return pagamentos.map((pagamento) => ({
