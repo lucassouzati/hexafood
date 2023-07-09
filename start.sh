@@ -7,4 +7,4 @@ yarn prisma migrate dev
 yarn prisma db seed
 
 # Inicie a aplicação
-# yarn start:dev
+yarn start:dev
