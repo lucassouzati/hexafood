@@ -1,28 +1,20 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ClientesService } from '../../../identificacao/core/application/services/clientes.service';
-import { CreateClienteDto } from '../driven/dto/create-cliente.dto';
-import { UpdateClienteDto } from '../driven/dto/update-cliente.dto';
-import { Cliente } from '../../core/domain/clientes/entities/cliente.entity';
+import { ApiTags } from '@nestjs/swagger';
+import { ClienteDto } from '../driven/infrastructure/dto/cliente.dto';
 
+@ApiTags('clientes')
 @Controller('clientes')
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}
 
   @Post()
-  create(@Body() cliente: Cliente) {
+  create(@Body() cliente: ClienteDto) {
     return this.clientesService.create(cliente);
   }
 
   @Get(':cpf')
-  async findByCPF(@Param('cpf') cpf: string): Promise<Cliente | null> {
+  async findByCPF(@Param('cpf') cpf: string): Promise<ClienteDto | null> {
     return await this.clientesService.findUnique(cpf);
   }
 }

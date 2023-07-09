@@ -1,4 +1,4 @@
-import { Cliente } from '../../../core/domain/clientes/entities/cliente.entity';
+import { Cliente } from '../../../core/domain/entities/cliente.entity';
 import { IClientesRepository } from '../../../core/application/ports/repositories/clientes.repository';
 
 export class InMemoryClientesRepository implements IClientesRepository {
@@ -14,6 +14,18 @@ export class InMemoryClientesRepository implements IClientesRepository {
     const cliente = this.clientes.find((c) => c.cpf == cpf);
     if (!cliente) {
       throw new Error(`Cliente com cpf ${cpf} não encontrado!`);
+    }
+    return cliente;
+  }
+
+  async existsByCpf(cpf: string): Promise<boolean> {
+    return this.clientes.some((c) => c.cpf == cpf);
+  }
+
+  async findById(id: number) {
+    const cliente = this.clientes.find((c) => c.id == id);
+    if (!cliente) {
+      throw new Error(`Cliente com id ${id} não encontrado!`);
     }
     return cliente;
   }

@@ -1,21 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PedidosModule } from './core/domain/pedidos/pedidos.module';
-import { ProdutosModule } from './core/domain/produtos/produtos.module';
+import { PedidoModule } from './pedido/pedido.module';
 import { IdentificacaoModule } from './identificacao/identificacao.module';
+import { PagamentoModule } from './pagamento/pagamento.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    EventEmitterModule.forRoot(),
     IdentificacaoModule,
-    PedidosModule,
-    ProdutosModule,
+    PedidoModule,
+    PagamentoModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

@@ -4,5 +4,7 @@
 # Execute as migrações do Prisma
 yarn prisma migrate dev
 
+yarn prisma db seed
+
 # Inicie a aplicação
-exec yarn start:dev
+yarn start:dev
