@@ -1,10 +1,8 @@
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { CategoriaException } from 'src/pedido/core/application/exceptions/categoria.exception';
-import { ProdutoException } from 'src/pedido/core/application/exceptions/produto.exception';
-import { PedidoException } from '../../../core/application/exceptions/pedido.exception';
+import { PagamentosException } from 'src/pagamento/core/application/exceptions/pagamentos.exception';
 
-@Catch(CategoriaException, PedidoException, ProdutoException)
+@Catch(PagamentosException)
 export class ValidationFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();

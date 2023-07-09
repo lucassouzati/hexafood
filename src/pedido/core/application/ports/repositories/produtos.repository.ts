@@ -6,6 +6,8 @@ export const IProdutosRepository = 'IProdutosRepository';
 export interface IProdutosRepository {
   createManyProdutos(data: ProdutoDto[]);
 
+  findAll(): Promise<Produto[]>;
+
   findByIdCategoria(id_categoria: number): Promise<Produto[]>;
 
   update(id: number, produto: ProdutoDto);

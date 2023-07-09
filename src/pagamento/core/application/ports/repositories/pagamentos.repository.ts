@@ -1,3 +1,4 @@
+import { PagamentoDto } from 'src/pagamento/adapter/driven/dto/pagamentoDto';
 import { Pagamento } from '../../../../core/domain/entities/pagamento.entity';
 
 export const PAGAMENTOS_REPOSITORY = 'IPagamentosRepository';

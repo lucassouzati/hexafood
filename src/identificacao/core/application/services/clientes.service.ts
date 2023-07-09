@@ -1,9 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Cliente } from '../../domain/entities/cliente.entity';
 import { IClientesRepository } from '../ports/repositories/clientes.repository';
-import { CpfJaExistenteException } from '../exceptions/cpf-ja-existente.exception';
-import { NomeInvalidoException } from '../exceptions/nome-invalido.exception';
-import { CpfInvalidoException } from '../exceptions/cpf-invalido.exception';
+import { ClienteException } from '../exceptions/cliente.exception';
 
 @Injectable()
 export class ClientesService {
@@ -14,18 +12,22 @@ export class ClientesService {
 
   async create(cliente: Cliente) {
     if (!cliente.nome || cliente.nome.trim() === '')
-      throw new NomeInvalidoException();
+      throw new ClienteException('O nome não pode ser vazio');
 
     if (!cliente.cpf || cliente.cpf.length != 11)
-      throw new CpfInvalidoException();
+      throw new ClienteException('CPF precisa ter exatamente 11 caracteres');
 
     if (cliente.cpf && (await this.clientesRepository.existsByCpf(cliente.cpf)))
-      throw new CpfJaExistenteException();
+      throw new ClienteException('CPF já cadastrado.');
 
     return this.clientesRepository.create(cliente);
   }
 
-  findUnique(cpf: string) {
+  async findUnique(cpf: string) {
+    const cliente = await this.clientesRepository.findUnique(cpf);
+    if(!cliente){
+      throw new ClienteException('Cpf não encontrado');
+    }
     return this.clientesRepository.findUnique(cpf);
   }
 

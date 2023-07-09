@@ -41,8 +41,21 @@ export class PagamentosRepository implements IPagamentosRepository {
   }
 
   findById(id: number): Promise<Pagamento | null> {
-    return this.prisma.pagamento.findUnique({
-      where: { id },
+    return this.prisma.pagamento.findFirst({ where: { id } }).then((result) => {
+      if (result) {
+        const pagamento = new Pagamento();
+        pagamento.id = result.id;
+        pagamento.id_cliente = result.id_cliente;
+        pagamento.valor = result.valor;
+        pagamento.id_pedido = result.id_pedido;
+        pagamento.id_transacao = result.id_transacao,
+        pagamento.descricao = result.descricao;
+        pagamento.plataforma = result.plataforma;
+        pagamento.createdAt = result.createdAt;
+        pagamento.updatedAt = result.updatedAt;
+        return pagamento;
+      }
+      return null;
     });
   }
 

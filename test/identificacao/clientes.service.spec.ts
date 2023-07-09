@@ -4,9 +4,7 @@ import { ClientesService } from '../../src/identificacao/core/application/servic
 import { InMemoryClientesRepository } from '../../src/identificacao/adapter/driven/infrastructure/in-memory-clientes.repository';
 import { Cliente } from '../../src/identificacao/core/domain/entities/cliente.entity';
 import { describe } from 'node:test';
-import { CpfJaExistenteException } from '../../src/identificacao/core/application/exceptions/cpf-ja-existente.exception';
-import { NomeInvalidoException } from '../../src/identificacao/core/application/exceptions/nome-invalido.exception';
-import { CpfInvalidoException } from '../../src/identificacao/core/application/exceptions/cpf-invalido.exception';
+import { ClienteException } from 'src/identificacao/core/application/exceptions/cliente.exception';
 
 describe('ClientesService', () => {
   let service: ClientesService;
@@ -48,7 +46,7 @@ describe('ClientesService', () => {
       jest.spyOn(repository, 'existsByCpf').mockResolvedValue(true);
 
       await expect(service.create(clienteData)).rejects.toThrowError(
-        CpfJaExistenteException,
+        ClienteException(''),
       );
     });
     it('should not create a new Cliente if the name is blank', async () => {
@@ -59,7 +57,7 @@ describe('ClientesService', () => {
       };
 
       await expect(service.create(clienteData)).rejects.toThrowError(
-        NomeInvalidoException,
+        ClienteException(''),
       );
     });
     it('should not create a new Cliente if the cpf is invalid', async () => {
@@ -70,7 +68,7 @@ describe('ClientesService', () => {
       };
 
       await expect(service.create(clienteData)).rejects.toThrowError(
-        CpfInvalidoException,
+        ClienteException(''),
       );
     });
   });

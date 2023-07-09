@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ProdutosController } from './adapter/driver/produtos.controller';
 import { ProdutosRepository } from './adapter/driven/infraestructure/produtos.repository';
 import { IProdutosRepository } from './core/application/ports/repositories/produtos.repository';
@@ -19,7 +19,7 @@ import { PagamentoModule } from 'src/pagamento/pagamento.module';
 import { IdentificacaoModule } from 'src/identificacao/identificacao.module';
 
 @Module({
-  imports: [PagamentoModule, IdentificacaoModule],
+  imports: [ forwardRef(() => PagamentoModule), IdentificacaoModule],
   controllers: [ProdutosController, CategoriasController, PedidosController],
   providers: [
     { provide: IProdutosRepository, useClass: ProdutosRepository },
@@ -38,5 +38,6 @@ import { IdentificacaoModule } from 'src/identificacao/identificacao.module';
     PedidosService,
     NovoPedidoListener,
   ],
+  exports: [PedidosService],
 })
 export class PedidoModule {}

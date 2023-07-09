@@ -21,6 +21,10 @@ export class InMemoryProdutosRepository implements IProdutosRepository {
     return this.produtos.filter((p) => p.id_categoria == idCategoria);
   }
 
+  async findAll() {
+    return this.produtos;
+  }
+
   async update(id: number, produto: Produto): Promise<Produto | null> {
     const item = this.produtos.find((p) => p.id == id);
     if (!item) {

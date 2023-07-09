@@ -7,6 +7,7 @@ import { ProdutosService } from './produtos.service';
 import EventEmitter from 'events';
 import { NovoPedidoEvent } from '../events/novo-pedido.event';
 import { StatusPedido } from '../../domain/enum/status-pedido.enum';
+import { PedidoException } from '../exceptions/pedido.exception';
 
 @Injectable()
 export class PedidosService {
@@ -20,30 +21,9 @@ export class PedidosService {
   ) {}
 
   async createNewPedido(pedidoDto: PedidoDTO) {
-    //TODO: implementar validações como por exemplo id de produtos existentes, id de cliente existente
 
-    // Obtendo todos os IDs dos produtos dos itens para consulta de valor
-    const productIds = pedidoDto.itens.map((item) => item.id_produto);
-    // Consultar todos os produtos
-    const produtos = await this.produtosService.findProdutosByIds(productIds);
+    const pedido: Pedido = await this.validarCamposPedido(pedidoDto);
 
-    const pedido = new Pedido();
-
-    if (pedidoDto.id_cliente) {
-      const cliente = await this.clientesService.findById(pedidoDto.id_cliente);
-      pedido.cliente = cliente;
-    }
-
-    pedido.id_cliente = pedidoDto.id_cliente;
-    pedido.itens = pedidoDto.itens.map((item) => {
-      const produto = produtos.find((p) => p.id === item.id_produto);
-      return {
-        quantidade: item.quantidade,
-        valor: produto.valor,
-        id_produto: item.id_produto,
-      };
-    });
-    pedido.valor_total = this.calculaValorTotal(pedido.itens);
     const { id } = await this.pedidosRepository.create(pedido);
     pedido.id = id;
     console.log('Novo pedido criado: ', pedido);
@@ -66,12 +46,7 @@ export class PedidosService {
     }));
   }
 
-  private calculaValorTotal(itens: Item[]): number {
-    return itens.reduce(
-      (total, item) => total + item.quantidade * item.valor,
-      0,
-    );
-  }
+
   consultarPedidosPendentes(): PedidoDTO[] | PromiseLike<PedidoDTO[]> {
     return this.pedidosRepository.findAll(StatusPedido.RECEBIDO);
   }
@@ -89,5 +64,49 @@ export class PedidosService {
     const pedido = await this.pedidosRepository.findById(id);
     pedido.status = StatusPedido.FINALIZADO;
     return this.pedidosRepository.update(id, pedido);
+  }
+
+  findById(id: number) {
+    return this.pedidosRepository.findById(id);
+  }
+
+  private async validarCamposPedido (pedidoDto: PedidoDTO): Promise<Pedido> {
+    const productIds = pedidoDto.itens.map((item) => item.id_produto);
+    const produtos = await this.produtosService.findProdutosByIds(productIds);
+
+    const pedido = new Pedido();
+
+    pedido.id_cliente = pedidoDto.id_cliente === 0 ? null : pedidoDto.id_cliente;
+
+    if (pedido.id_cliente > 0) {
+      const cliente = await this.clientesService.findById(pedidoDto.id_cliente);
+      if(!cliente){
+        throw new PedidoException(`Cliente não cadastrado. Id_cliente: ${pedidoDto.id_cliente}`);
+      }
+      pedido.cliente = cliente;
+    }
+
+    pedido.itens = pedidoDto.itens.map((item) => {
+      const produto = produtos.find((p) => p.id === item.id_produto);
+      if (!produto) {
+        throw new PedidoException(`Produto não cadastrado. id_produto: ${item.id_produto}`);
+      }
+      return {
+        quantidade: item.quantidade,
+        valor: produto.valor,
+        id_produto: item.id_produto,
+      };
+    });
+
+    pedido.valor_total = this.calculaValorTotal(pedido.itens);
+    
+    return pedido;
+  }
+
+  private calculaValorTotal(itens: Item[]): number {
+    return itens.reduce(
+      (total, item) => total + item.quantidade * item.valor,
+      0,
+    );
   }
 }

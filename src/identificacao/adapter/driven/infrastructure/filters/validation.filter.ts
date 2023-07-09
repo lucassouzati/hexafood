@@ -1,10 +1,8 @@
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { CpfInvalidoException } from '../../../../core/application/exceptions/cpf-invalido.exception';
-import { NomeInvalidoException } from '../../../../core/application/exceptions/nome-invalido.exception';
-import { CpfJaExistenteException } from '../../../../core/application/exceptions/cpf-ja-existente.exception';
+import { ClienteException } from 'src/identificacao/core/application/exceptions/cliente.exception';
 
-@Catch(CpfInvalidoException, NomeInvalidoException, CpfJaExistenteException)
+@Catch(ClienteException)
 export class ValidationFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();

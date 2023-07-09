@@ -24,6 +24,11 @@ export class ProdutosController {
     return this.produtosService.createManyProdutos(produto);
   }
 
+  @Get()
+  findAll() {
+    return this.produtosService.findAll();
+  }
+
   @Get(':id_categoria')
   async findByIdCategoria(
     @Param('id_categoria') id_categoria: number,

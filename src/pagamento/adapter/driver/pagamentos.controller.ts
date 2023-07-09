@@ -8,23 +8,23 @@ import { CreatePagamentoDto } from '../../adapter/driven/dto/pagamentoDto';
 export class PagamentosController {
   constructor(private readonly pagamentosService: PagamentosService) {}
 
-  @Post()
-  create(@Body() createPagamentoDto: CreatePagamentoDto) {
-    return this.pagamentosService.createPagamento(createPagamentoDto);
-  }
+  // @Post()
+  // create(@Body() createPagamentoDto: CreatePagamentoDto) {
+  //   return this.pagamentosService.createPagamento(createPagamentoDto);
+  // }
 
-  @Get()
-  findAll() {
-    return this.pagamentosService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.pagamentosService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pagamentosService.findById(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.pagamentosService.findById(+id);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pagamentosService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.pagamentosService.remove(+id);
+  // }
 }
