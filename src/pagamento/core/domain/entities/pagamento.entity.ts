@@ -1,11 +1,11 @@
-import { Cliente } from "src/identificacao/core/domain/entities/cliente.entity";
-import { Pedido } from "src/pedido/core/domain/entities/pedido.entity";
+import { Cliente } from 'src/identificacao/core/domain/entities/cliente.entity';
+import { Pedido } from 'src/pedido/core/domain/entities/pedido.entity';
 
 export class Pagamento {
   id?: number;
   id_cliente?: number;
   id_pedido: number;
-  id_transacao: bigint;
+  id_transacao: bigint | string;
   descricao: string;
   plataforma: string;
   valor: number;

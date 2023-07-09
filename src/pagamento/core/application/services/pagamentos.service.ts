@@ -4,10 +4,7 @@ import {
   PAGAMENTOS_REPOSITORY,
 } from '../ports/repositories/pagamentos.repository';
 
-import {
-  CreatePagamentoDto,
-  PagamentoDto,
-} from '../../../adapter/driven/dto/pagamentoDto';
+import { CreatePagamentoDto } from '../../../adapter/driven/dto/pagamentoDto';
 import { MERCADO_PAGO_CLIENT } from '../ports/clients/mercadopago.client';
 import { IPagamentosClientRepository } from '../ports/repositories/pagamentos-client.repository';
 import { PagamentosException } from '../exceptions/pagamentos.exception';
@@ -23,7 +20,6 @@ export class PagamentosService {
     @Inject(MERCADO_PAGO_CLIENT)
     private pagamentosClient: IPagamentosClientRepository,
     private pedidoService: PedidosService,
-
   ) {
     this.pagamentosClient = pagamentosClient;
     this.pagamentosRepository = pagamentosRepository;
@@ -33,10 +29,10 @@ export class PagamentosService {
   async createPagamento(data: CreatePagamentoDto) {
     const description = `Hexafood - pedido ${data.id_pedido} - MercadoPago`;
 
-      const pedido = await this.pedidoService.findById(data.id_pedido);
-      if(!pedido){
-       throw new PagamentosException('O Pedido informado não existe.');
-      }
+    const pedido = await this.pedidoService.findById(data.id_pedido);
+    if (!pedido) {
+      throw new PagamentosException('O Pedido informado não existe.');
+    }
 
     const { id } = await this.pagamentosClient.createPagamento(data);
 
@@ -49,9 +45,8 @@ export class PagamentosService {
     });
   }
 
-  async findAll(): Promise<any[]> {
+  async findAll(): Promise<Pagamento[]> {
     const pagamentos = await this.pagamentosRepository.findAll();
-    console.log('pagamentos',pagamentos);
 
     return pagamentos.map((pagamento) => ({
       id: pagamento.id,
@@ -69,13 +64,12 @@ export class PagamentosService {
   }
 
   async findById(id: number): Promise<Pagamento> {
-    
     const pagamento = await this.pagamentosRepository.findById(id);
-    console.log("pagamento", pagamento);
-    
+    console.log('pagamento', pagamento);
+
     if (!pagamento) {
       throw new PagamentosException('Pagamento não encontrado');
-    } 
+    }
     return {
       id: pagamento.id,
       id_cliente: pagamento.id_cliente,
@@ -90,7 +84,7 @@ export class PagamentosService {
       pedido: pagamento.pedido,
     };
   }
-  
+
   remove(id: number) {
     return this.pagamentosRepository.remove(id);
   }
