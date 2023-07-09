@@ -62,4 +62,9 @@ export class PedidosController {
     return this.pedidosService.finalizarPedido(idAsNumber);
   }
 
+  @Get(':codigo_pedido')
+  async consultarPedidoPorCodigo(@Param('codigo_pedido') codigo_pedido: string) {
+    return this.pedidosService.consultarPedidoPorCodigo(codigo_pedido);
+  }
+
 }

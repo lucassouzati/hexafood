@@ -152,4 +152,39 @@ export class PedidosRepository implements IPedidosRepository {
         return pedido;
       });
   }
+  findByCodigo(codigo_pedido: string): Promise<Pedido> {
+    return this.prisma.pedido
+      .findUnique({
+        where: {
+          codigo_pedido,
+        },
+        include: {
+          cliente: true,
+          itens: {
+            include: {
+              produto: true,
+            },
+          },
+        },
+      })
+      .then((result) => {
+        const pedido = new Pedido();
+        pedido.id = result.id;
+        pedido.codigo_pedido = result.codigo_pedido;
+        pedido.status =
+          StatusPedido[result.status as keyof typeof StatusPedido];
+        pedido.createdAt = result.createdAt;
+        pedido.updatedAt = result.updatedAt;
+        pedido.cliente = result.cliente;
+        pedido.valor_total = result.valor_total;
+        pedido.itens = result.itens.map((item) => ({
+          id: item.id,
+          quantidade: item.quantidade,
+          valor: item.valor,
+          id_produto: item.id_produto,
+          produto: item.produto,
+        }));
+        return pedido;
+      });
+  }
 }

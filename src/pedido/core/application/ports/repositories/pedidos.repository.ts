@@ -13,4 +13,7 @@ export interface IPedidosRepository {
   findByStatus(status: StatusPedido);
 
   findById(id: number): Promise<Pedido>;
+
+  findByCodigo(codigo_pedido: string): Promise<Pedido>;
+
 }

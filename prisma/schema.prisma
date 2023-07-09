@@ -47,7 +47,7 @@ model Produto {
 
 model Pedido {
   id            Int      @id @default(autoincrement())
-  codigo_pedido String
+  codigo_pedido String   @unique
   valor_total   Float
   status        String   @default("INICIADO")
   createdAt     DateTime @default(now())
@@ -93,7 +93,6 @@ model Pagamento {
 
   // pedido        Pedido @relation(fields: [id_pedido], references: [id]) 
   cliente Cliente? @relation(fields: [id_cliente], references: [id])
-
 
   @@map("pagamentos")
 }

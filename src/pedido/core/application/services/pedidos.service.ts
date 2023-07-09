@@ -109,4 +109,7 @@ export class PedidosService {
       0,
     );
   }
+  consultarPedidoPorCodigo(codigo_pedido: string) {
+    return this.pedidosRepository.findByCodigo(codigo_pedido);
+  }
 }
