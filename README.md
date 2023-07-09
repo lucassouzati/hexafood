@@ -14,6 +14,7 @@
     - <a href="#identificação">Identificação</a>
     - <a href="#pedido">Pedido</a>
     - <a href="#pagamento">Pagamento</a>
+- <a href="#no_entry_sign-exceções-e-validações">Exceções e Validações</a>
 - <a href="#microscope-testabilidade">Testabilidade</a>
 - <a href="#bookmark_tabs-licença">Licença</a>
 - <a href="#wink-autores">Autores</a>
@@ -152,6 +153,7 @@ O sistema efetuará as seguintes validações:
 - O CPF não pode ter sido cadastrado em outro cliente
 
 Caso o cliente já seja cadastrado, ele poderá se identificar pelo endpoint:
+
 [/clientes/{cpf}](http://localhost:3000/api/#/clientes/ClientesController_findByCPF)
 
 Também é possível que o cliente prossiga sem se identificar. Dessa forma, o autoatendimento apenas não informará a identificação do mesmo na hora de efetuar o pedido.
@@ -159,6 +161,7 @@ Também é possível que o cliente prossiga sem se identificar. Dessa forma, o a
 ### Pedido
 
 Para composição do pedido, primeiramente é necessário consultar as categorias cadastradas no sistema:
+
 [/categorias](http://localhost:3000/api/#/categorias/CategoriasController_findAll)
 O cliente poderá escolher entre umas das categorias do sistema:
 
@@ -204,6 +207,7 @@ Com a categoria escolhida, o sistema deverá listar os produtos filtrados, os qu
 ```
 
 Após escolher todos itens necessário, o autoatendimento deve submeter o pedido completo no seguinte endpoint:
+
 [/pedidos](http://localhost:3000/api/#/pedidos/PedidosController_createManyProdutos)
 
 ```json
@@ -235,6 +239,7 @@ O pedido consiste na identificação do cliente (se estiver identificado), e os 
 O pedido será submetido a uma etapa de processamento do pagamento que será explicada no próximo tópico. Por hora, nesse momento será exemplificado a etapa pós pagamento.
 
 Após o processamento do pagamento, o pedido tem o seu STATUS alterado para "RECEBIDO". Dessa forma, ele deve estar disponível para consulta de pedidos pendentes no painel da cozinha, através do seguinte endpoint:
+
 [/pedidos/consultar_pedidos_pendentes](http://localhost:3000/api/#/pedidos/PedidosController_consultarPedidosPendentes)
 
 ```json
@@ -270,6 +275,7 @@ Após o processamento do pagamento, o pedido tem o seu STATUS alterado para "REC
 ]
 ```
 Dessa forma, o pedido entra numa fila e fica disponível de acordo com a ordem de criação (o pedido mais antigo para o mais recente) para que algum usuário atuante da Cozinha, inicie a preparação. Ele deve dar algum comando para painel, para que o status do pedido seja atualizado no seguinte endpoint:
+
 [/pedidos/{id}/iniciar_preparacao](http://localhost:3000/api/#/pedidos/PedidosController_iniciarPreparacaoPedido)
 ```json
 {
@@ -284,6 +290,7 @@ Dessa forma, o pedido entra numa fila e fica disponível de acordo com a ordem d
 ```
 Dessa forma o STATUS do pedido passa para a "EM_PREPARACAO". 
 Ao finalizar a preparação, o usuário da Cozinha deve chamar o endpoint:
+
 [/pedidos/{id}/finalizar_preparacao](http://localhost:3000/api/#/pedidos/PedidosController_finalizarPreparacaoPedido)
 ```json
 {
@@ -297,6 +304,7 @@ Ao finalizar a preparação, o usuário da Cozinha deve chamar o endpoint:
 }
 ```
 O STATUS do pedido passa a ser "PRONTO", o que significa ele já pode ser retirado pelo cliente. Quando isso acontecer, deve ser dado o comando para atualizar o STATUS do pedido novamente:
+
 [/pedidos/{id}/finalizar_pedido](http://localhost:3000/api/#/pedidos/PedidosController_finalizarPedido)
 ```json
 {
@@ -310,6 +318,10 @@ O STATUS do pedido passa a ser "PRONTO", o que significa ele já pode ser retira
 }
 ```
 O pedido passa para "FINALIZADO" e se encerra o fluxo. 
+
+Em todo processo é possível consultar pedido atual através do código gerado pelo sistema, através do seguinte endpoint:
+
+[/pedidos/{codigo_pedido}](http://localhost:3000/api#/pedidos/PedidosController_consultarPedidoPorCodigo)
 
 ### Pagamento ###
 Antes do pedido prosseguir para cozinha para preparação, ele deve ter seu pagamento processado. Como isso é feito por um sistema externo, foi optado por fazer isso de forma assíncrona. 
@@ -365,7 +377,57 @@ export class NovoPedidoListener {
 }
 
 ```
-O NovoPedidoListener tenta se comunicar com o cliente de pagamento através da classe PagamentosService do módulo de Pagamentos. A lógica de comunicação com o gateway do Mercado pago está implementada nessa classe. Se por acaso algum erro acontecer durante o processamento do pagamento,o pedido passa ter o STATUS "CANCELADO" e não vai para fila de preparação. Futuramente, lógicas adicionais para tratento de pedidos cancelados podem ser implementadas. 
+O NovoPedidoListener tenta se comunicar com o cliente de pagamento através da classe PagamentosService do módulo de Pagamentos. A lógica de comunicação com o gateway do Mercado pago está implementada nessa classe. Se por acaso algum erro acontecer durante o processamento do pagamento,o pedido passa ter o STATUS "CANCELADO" e não vai para fila de preparação. Futuramente, lógicas adicionais para tratento de pedidos cancelados podem ser implementadas.
+
+## :no_entry_sign: Exceções e Validações
+
+Assim como no DDD, um dos principais objetivos da Arquitetura Hexagonal é separar a complexidade de implementação (camada de infraestrutura) da camada de negócio. Isso deve nortear todo design de código, incluindo as validações e exceções.
+
+Nesse projeto a validação é feita pela camada de domínio, mas em específico nas classes services. Quando algo não passar por alguma validação, do ponto de vista de negócio isso é uma exceção. Dessa forma, é disparado uma exceção personalizada, conforme exemplo a seguir:
+```ts
+async create(cliente: Cliente) {
+    if (!cliente.nome || cliente.nome.trim() === '')
+      throw new ClienteException('O nome não pode ser vazio');
+
+    if (!cliente.cpf || cliente.cpf.length != 11)
+      throw new ClienteException('CPF precisa ter exatamente 11 caracteres');
+
+    if (cliente.cpf && (await this.clientesRepository.existsByCpf(cliente.cpf)))
+      throw new ClienteException('CPF já cadastrado.');
+
+    return this.clientesRepository.create(cliente);
+  }
+```
+
+Nessa abordagem, a camada de domínio apenas dispara a exceção e não se preocupa o que fazer com essa exceção. Ou seja, ela informa que houve uma exceção para outra camada que a chamou, agora fica a critério dessa outra camada tratar essa exceção. 
+
+Nesse projeto, foi utilizado um recurso do próprio NestJS para tratamento de exceções chamado "ExceptionFilter". Foi criado uma classe chamada "ValidationFilter" captura automaticamente as exceções de validação, e retorna uma mensagem formatada para API com status code 400:
+```ts
+@Catch(ClienteException)
+export class ValidationFilter implements ExceptionFilter {
+  catch(exception: Error, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+
+    response.status(400).json({
+      statusCode: 400,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      error: exception.message,
+    });
+  }
+}
+```
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2023-07-09T20:50:02.056Z",
+  "path": "/clientes",
+  "error": "O nome não pode ser vazio"
+}
+```
+Dessa forma, transferimos a complexidade de implementação de um retorno da API para camada de infraestrutura, mantendo a camada de domínio desacoplada e limpa.
 ## :microscope: Testabilidade
 
 Considerando o uso de portas para a camada de serviços do coração do software se comunicar com serviços externos, torna-se o possível do uso de injeção de dependência para mudar o comportamento padrão do sistema e dessa forma fazer testes de unidades totalmente independentes. Como por exemplo no teste de ClientesService foi injetado um repositório de clientes em memória para que não precisássemos de banco de dados durante os testes de unitários, dessa forma reforçando o conceito de pirâmide testes:
